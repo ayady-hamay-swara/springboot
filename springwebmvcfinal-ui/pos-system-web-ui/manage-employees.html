@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Employees - POS System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/manage-employees.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">🏪 POS System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-customers.html">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-items.html">Items</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="manage-employees.html">Employees <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="place-order.html">Place Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search-orders.html">Search Orders</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-title">Employee Management</h2>
+                <hr>
+            </div>
+        </div>
+
+        <!-- Employee Form -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Employee Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="employeeForm">
+                            <div class="row">
+                                <!-- Employee ID -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtEmployeeId">Employee ID</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="txtEmployeeId" 
+                                                   placeholder="E001" readonly>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button" 
+                                                        id="btnGenerateId">Generate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Employee Name -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtEmployeeName">Employee Name</label>
+                                        <input type="text" class="form-control" id="txtEmployeeName" 
+                                               placeholder="Enter name" required>
+                                    </div>
+                                </div>
+
+                                <!-- Position -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtPosition">Position</label>
+                                        <select class="form-control" id="txtPosition" required>
+                                            <option value="">Select Position</option>
+                                            <option value="Cashier">Cashier</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Stock Clerk">Stock Clerk</option>
+                                            <option value="Sales Associate">Sales Associate</option>
+                                            <option value="Assistant Manager">Assistant Manager</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtStatus">Status</label>
+                                        <select class="form-control" id="txtStatus" required>
+                                            <option value="true">Active</option>
+                                            <option value="false">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Email -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="txtEmail">Email</label>
+                                        <input type="email" class="form-control" id="txtEmail" 
+                                               placeholder="employee@example.com" required>
+                                    </div>
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="txtPhone">Phone</label>
+                                        <input type="text" class="form-control" id="txtPhone" 
+                                               placeholder="0771234567" required>
+                                    </div>
+                                </div>
+
+                                <!-- Salary -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="txtSalary">Salary</label>
+                                        <input type="number" class="form-control" id="txtSalary" 
+                                               placeholder="50000.00" step="0.01" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Hire Date -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="txtHireDate">Hire Date</label>
+                                        <input type="date" class="form-control" id="txtHireDate" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-success" id="btnSave">
+                                        <i class="fa fa-save"></i> Save Employee
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="btnUpdate">
+                                        <i class="fa fa-edit"></i> Update Employee
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="btnDelete">
+                                        <i class="fa fa-trash"></i> Delete Employee
+                                    </button>
+                                    <button type="button" class="btn btn-warning" id="btnClear">
+                                        <i class="fa fa-refresh"></i> Clear Form
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Search Employees</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="txtSearchName">Search by Name</label>
+                                    <input type="text" class="form-control" id="txtSearchName" 
+                                           placeholder="Enter employee name">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtSearchPosition">Filter by Position</label>
+                                    <select class="form-control" id="txtSearchPosition">
+                                        <option value="">All Positions</option>
+                                        <option value="Cashier">Cashier</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Stock Clerk">Stock Clerk</option>
+                                        <option value="Sales Associate">Sales Associate</option>
+                                        <option value="Assistant Manager">Assistant Manager</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="txtSearchStatus">Filter by Status</label>
+                                    <select class="form-control" id="txtSearchStatus">
+                                        <option value="">All</option>
+                                        <option value="true">Active</option>
+                                        <option value="false">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="button" class="btn btn-info btn-block" id="btnSearch">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Employees</h5>
+                        <h2 id="totalEmployees">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Employees</h5>
+                        <h2 id="activeEmployees">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning">
+                    <div class="card-body">
+                        <h5 class="card-title">Managers</h5>
+                        <h2 id="totalManagers">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Payroll</h5>
+                        <h2 id="totalPayroll">Rs. 0.00</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employees Table -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">Employee List</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="employeeTable">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Salary</th>
+                                        <th>Hire Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblEmployeeBody">
+                                    <!-- Employee rows will be added here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-3 bg-dark text-white text-center">
+        <p>&copy; 2025 POS System. All rights reserved.</p>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/manage-employees-controller.js"></script>
+
+</body>
+</html>
