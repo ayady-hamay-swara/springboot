@@ -1,23 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Modern POS 2019 - DEP3 Edition">
-    <title>Modern POS · DEP</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <!-- Custom styles -->
-    <link href="css/styles.css" rel="stylesheet">
-    <!-- Place Order Styles -->
-    <link rel="stylesheet" href="css/place-order.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Checkout - Point of Sale</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/pos-checkout.css">
 </head>
-<body>    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-         <a class="navbar-brand" href="index.html">🏪 POS System</a>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">🏪 POS System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,116 +32,286 @@
                 <li class="nav-item">
                     <a class="nav-link" href="manage-items.html">Items</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="manage-employees.html">Employees </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-employees.html">Employees</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="place-order.html">Place Order<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="search-orders.html">Search Orders</a>
+                    <a class="nav-link" href="place-order.html">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search-orders.html">Search</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Place Order</h1>
+    <!-- Main POS Interface -->
+    <div class="container-fluid pos-container">
+        <div class="row">
+            
+            <!-- LEFT SIDE: Product Selection & Search -->
+            <div class="col-md-7 products-section">
+                
+                <!-- Quick Stats Bar -->
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-label">Today's Sales</span>
+                        <span class="stat-value" id="todaySales">Rs. 0.00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Transactions</span>
+                        <span class="stat-value" id="todayTransactions">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Cashier</span>
+                        <span class="stat-value" id="cashierName">Admin</span>
+                    </div>
+                </div>
+
+                <!-- Search & Category Filter -->
+                <div class="search-section">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="search-box">
+                                <input type="text" class="form-control form-control-lg" 
+                                       id="productSearch" 
+                                       placeholder="🔍 Search product by name or scan barcode...">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control form-control-lg" id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Stationery">Stationery</option>
+                                <option value="Food & Beverage">Food & Beverage</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here dynamically -->
+                    <div class="loading-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading products...</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <section>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label>Order ID: <span id="spnOrderId"></span></label>
+
+            <!-- RIGHT SIDE: Cart & Checkout -->
+            <div class="col-md-5 cart-section">
+                
+                <!-- Customer Info -->
+                <div class="customer-section">
+                    <div class="customer-header">
+                        <h5>👤 Customer</h5>
+                        <button class="btn btn-sm btn-outline-primary" id="btnSelectCustomer">
+                            Change Customer
+                        </button>
+                    </div>
+                    <div class="customer-info" id="customerInfo">
+                        <div class="customer-name">Walk-in Customer</div>
+                        <div class="customer-details">No customer selected</div>
+                    </div>
+                </div>
+
+                <!-- Shopping Cart -->
+                <div class="cart-container">
+                    <div class="cart-header">
+                        <h5>🛒 Cart Items</h5>
+                        <button class="btn btn-sm btn-danger" id="btnClearCart">Clear All</button>
+                    </div>
+
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will be added here -->
+                        <div class="empty-cart">
+                            <div class="empty-cart-icon">🛒</div>
+                            <p>Cart is empty</p>
+                            <small>Scan or select products to add</small>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">Rs. 0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Discount:</span>
+                        <div class="discount-input">
+                            <input type="number" class="form-control form-control-sm" 
+                                   id="discountPercent" value="0" min="0" max="100" step="1">
+                            <span>%</span>
+                            <span class="discount-amount" id="discountAmount">Rs. 0.00</span>
+                        </div>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (0%):</span>
+                        <span id="taxAmount">Rs. 0.00</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>TOTAL:</span>
+                        <span id="totalAmount">Rs. 0.00</span>
+                    </div>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="payment-section">
+                    <h6>💳 Payment Method</h6>
+                    <div class="payment-methods">
+                        <button class="payment-btn active" data-method="CASH">
+                            💵 Cash
+                        </button>
+                        <button class="payment-btn" data-method="CARD">
+                            💳 Card
+                        </button>
+                        <button class="payment-btn" data-method="TRANSFER">
+                            🏦 Transfer
+                        </button>
+                    </div>
+
+                    <!-- Cash Payment Details -->
+                    <div class="cash-payment" id="cashPayment">
                         <div class="form-group">
-                            <label>Order Date: <span id="spnOrderDate"></span></label>
+                            <label>Amount Received:</label>
+                            <input type="number" class="form-control form-control-lg" 
+                                   id="amountReceived" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="change-display">
+                            <span>Change:</span>
+                            <span class="change-amount" id="changeAmount">Rs. 0.00</span>
                         </div>
                     </div>
                 </div>
-                <div class="row border-bottom">
-                    <div class="col-12 col-lg-2">
-                        <div class="form-group">
-                            <label>Customer ID</label>
-                            <select id="cmbCustomerId" class="form-control">
-                            </select>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-lg btn-success btn-block" id="btnCompleteSale">
+                        ✓ Complete Sale
+                    </button>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <button class="btn btn-outline-secondary btn-block" id="btnHoldSale">
+                                ⏸ Hold
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-danger btn-block" id="btnCancelSale">
+                                ✕ Cancel
+                            </button>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-10">
-                        <label>Customer Name</label>
-                        <label id="lblCustomerName" class="form-control"></label>
-                    </div>
                 </div>
-                <div class="row border-bottom" style="margin-top: 10px;">
-                    <div class="col-12 col-lg-2">
-                        <div class="form-group">
-                            <label>Item Code</label>
-                            <select id="cmbItemCode" class="form-control">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-4">
-                        <label>Description</label>
-                        <label id="lblDescription" class="form-control"></label>
-                    </div>
-                    <div class="col-12 col-lg-2 text-center">
-                        <label>Unit Price</label>
-                        <label id="lblUnitPrice" class="form-control"></label>
-                    </div>
-                    <div class="col-12 col-lg-2 text-center">
-                        <label>Qty. on Hand</label>
-                        <label id="lblQtyOnHand" class="form-control"></label>
-                    </div>
-                    <div class="col-12 col-lg-2 text-center">
-                        <label>Qty. </label>
-                        <input id="txtQty" type="number" class="form-control">
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 20px;">
-                    <div class="col-12">
-                        <table id="tblOrderDetails" class="table table-bordered table-hover">
-                            <colgroup>
-                                <col style="width:100px;">
-                                <col>
-                                <col style="width:100px;">
-                                <col style="width:200px;">
-                                <col style="width:200px;">
-                                <col style="width:100px;">
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Description</th>
-                                <th>Qty.</th>
-                                <th>Unit Price</th>
-                                <th>Total</th>
-                                <th>Delete</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 10px;margin-bottom: 20px;">
-                    <div class="col-12 col-lg-6">
-                        <h2>Total: <span id="spnTotal"></span></h2>
-                    </div>
-                    <div class="col-12 col-lg-6 text-right">
-                        <button id="btnPlaceOrder" class="btn btn-primary">Place Order</button>
-                    </div>
-                </div>
-            </section>
-        </main>
+
+            </div>
+        </div>
     </div>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/place-order-controller.js"></script>
+
+    <!-- Customer Selection Modal -->
+    <div class="modal fade" id="customerModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="customerSearch" 
+                               placeholder="Search by name, phone, or ID...">
+                    </div>
+                    <div class="customer-list" id="customerList">
+                        <!-- Customer list will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnWalkIn">Walk-in Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Receipt</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="receiptContent" class="receipt">
+                        <!-- Receipt will be generated here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnPrintReceipt">🖨️ Print</button>
+                    <button type="button" class="btn btn-success" id="btnNewSale">New Sale</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Numpad Modal (for quick amount entry) -->
+    <div class="modal fade" id="numpadModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enter Amount</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control form-control-lg text-right" 
+                           id="numpadDisplay" readonly value="0">
+                    <div class="numpad">
+                        <button class="numpad-btn">7</button>
+                        <button class="numpad-btn">8</button>
+                        <button class="numpad-btn">9</button>
+                        <button class="numpad-btn">4</button>
+                        <button class="numpad-btn">5</button>
+                        <button class="numpad-btn">6</button>
+                        <button class="numpad-btn">1</button>
+                        <button class="numpad-btn">2</button>
+                        <button class="numpad-btn">3</button>
+                        <button class="numpad-btn">.</button>
+                        <button class="numpad-btn">0</button>
+                        <button class="numpad-btn numpad-clear">C</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btnNumpadOk">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/pos-checkout-controller.js"></script>
+
 </body>
 </html>
