@@ -1,24 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Modern POS 2019 - DEP3 Edition">
-    <title>Modern POS · DEP</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <!-- Custom styles -->
-    <link href="css/styles.css" rel="stylesheet">
-    <!-- Search Orders Styles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Orders - POS System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/search-orders.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-
 </head>
-<body><nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-     <a class="navbar-brand" href="index.html">🏪 POS System</a>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">🏪 POS System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,65 +32,392 @@
                 <li class="nav-item">
                     <a class="nav-link" href="manage-items.html">Items</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="manage-employees.html">Employees </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-employees.html">Employees</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="place-order.html">Place Order</a>
+                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout </a>
                 </li>
+             
                 <li class="nav-item active">
-                    <a class="nav-link" href="search-orders.html">Search Orders <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="search-orders.html">Search<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
     </nav>
-    </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Search Orders</h1>
-            </div>
-            <div class="row">
-                <!--<div class="col-12">-->
-                    <!--<div class="form-group">-->
-                        <!--<input type="text" placeholder="Enter Order details here to search a order" class="form-control">-->
-                    <!--</div>-->
-                <!--</div>-->
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <table id="tblOrders" class="table table-bordered table-hover">
-                        <colgroup>
-                            <col style="width: 100px;">
-                            <col style="width: 150px;">
-                            <col>
-                            <col style="width: 150px;">
-                            <col style="width: 150px;">
-                            <!--<col style="width: 100px;">-->
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer ID</th>
-                            <th>Customer Name</th>
-                            <th>Order Date</th>
-                            <th>Order Total</th>
-                            <!--<th>View Order</th>-->
-                        </tr>
-                        </thead>
-                        <tbody>
 
-                        </tbody>
-                    </table>
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-title">🔍 Order Search & Management</h2>
+                <hr>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mt-3">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stat-card stat-total">
+                    <div class="card-body">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-info">
+                            <h5>Total Orders</h5>
+                            <h2 id="totalOrders">0</h2>
+                            <small>All time</small>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </main>
-    </div>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stat-card stat-completed">
+                    <div class="card-body">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <h5>Completed</h5>
+                            <h2 id="completedOrders">0</h2>
+                            <small>Fulfilled orders</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stat-card stat-pending">
+                    <div class="card-body">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-info">
+                            <h5>Pending</h5>
+                            <h2 id="pendingOrders">0</h2>
+                            <small>Awaiting action</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stat-card stat-revenue">
+                    <div class="card-body">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <h5>Total Revenue</h5>
+                            <h2 id="totalRevenue">Rs. 0</h2>
+                            <small>From all orders</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<script src="js/show-order-controller.js"></script>
+        <!-- Advanced Search Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card search-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">🔎 Advanced Search Filters</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Order ID -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="searchOrderId">Order ID</label>
+                                    <input type="text" class="form-control" id="searchOrderId" 
+                                           placeholder="Order #">
+                                </div>
+                            </div>
+
+                            <!-- Customer -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="searchCustomer">Customer</label>
+                                    <input type="text" class="form-control" id="searchCustomer" 
+                                           placeholder="Customer name">
+                                </div>
+                            </div>
+
+                            <!-- Date From -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="searchDateFrom">From Date</label>
+                                    <input type="date" class="form-control" id="searchDateFrom">
+                                </div>
+                            </div>
+
+                            <!-- Date To -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="searchDateTo">To Date</label>
+                                    <input type="date" class="form-control" id="searchDateTo">
+                                </div>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="searchStatus">Status</label>
+                                    <select class="form-control" id="searchStatus">
+                                        <option value="">All Status</option>
+                                        <option value="COMPLETED">Completed</option>
+                                        <option value="PENDING">Pending</option>
+                                        <option value="CANCELLED">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Quick Filters -->
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button class="btn btn-info btn-block" id="btnSearch">
+                                        🔍
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Filters Row -->
+                        <div class="row">
+                            <!-- Amount Range -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="searchAmountMin">Min Amount</label>
+                                    <input type="number" class="form-control" id="searchAmountMin" 
+                                           placeholder="0.00" step="0.01">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="searchAmountMax">Max Amount</label>
+                                    <input type="number" class="form-control" id="searchAmountMax" 
+                                           placeholder="0.00" step="0.01">
+                                </div>
+                            </div>
+
+                            <!-- Payment Method -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="searchPayment">Payment</label>
+                                    <select class="form-control" id="searchPayment">
+                                        <option value="">All Methods</option>
+                                        <option value="CASH">Cash</option>
+                                        <option value="CARD">Card</option>
+                                        <option value="TRANSFER">Transfer</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Quick Date Filters -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Quick Filters</label>
+                                    <div class="btn-group btn-group-sm d-block" role="group">
+                                        <button type="button" class="btn btn-outline-secondary" id="btnToday">Today</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="btnYesterday">Yesterday</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="btnThisWeek">This Week</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="btnThisMonth">This Month</button>
+                                        <button type="button" class="btn btn-outline-warning" id="btnReset">Reset All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card results-card">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">📋 Search Results (<span id="resultCount">0</span> orders found)</h5>
+                        <div>
+                            <button class="btn btn-sm btn-outline-light" id="btnExportResults">
+                                📤 Export CSV
+                            </button>
+                            <button class="btn btn-sm btn-outline-light" id="btnPrintResults">
+                                🖨️ Print
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0" id="ordersTable">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date & Time</th>
+                                        <th>Customer</th>
+                                        <th>Items</th>
+                                        <th>Amount</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTableBody">
+                                    <!-- Orders will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-3 bg-dark text-white text-center">
+        <p>&copy; 2025 POS System. All rights reserved.</p>
+    </footer>
+
+    <!-- Order Details Modal -->
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Details - <span id="modalOrderId"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Order Info -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <label>Customer:</label>
+                                <span id="detailCustomer"></span>
+                            </div>
+                            <div class="info-group">
+                                <label>Order Date:</label>
+                                <span id="detailDate"></span>
+                            </div>
+                            <div class="info-group">
+                                <label>Payment Method:</label>
+                                <span id="detailPayment"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <label>Status:</label>
+                                <span id="detailStatus"></span>
+                            </div>
+                            <div class="info-group">
+                                <label>Processed By:</label>
+                                <span id="detailEmployee"></span>
+                            </div>
+                            <div class="info-group">
+                                <label>Notes:</label>
+                                <span id="detailNotes"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Order Items -->
+                    <h6>Order Items</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailItemsBody">
+                                <!-- Items will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="order-summary-detail">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="detailSubtotal">Rs. 0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Discount:</span>
+                            <span id="detailDiscount">Rs. 0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax:</span>
+                            <span id="detailTax">Rs. 0.00</span>
+                        </div>
+                        <div class="summary-row total-row">
+                            <span><strong>Total:</strong></span>
+                            <span id="detailTotal"><strong>Rs. 0.00</strong></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" id="btnPrintOrder">🖨️ Print Receipt</button>
+                    <button type="button" class="btn btn-warning" id="btnEditOrder">✏️ Edit Order</button>
+                    <button type="button" class="btn btn-danger" id="btnCancelOrder">❌ Cancel Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Order Confirmation Modal -->
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Cancel Order</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> This will cancel order <strong id="cancelOrderId"></strong>. This action cannot be undone.
+                    </div>
+                    <div class="form-group">
+                        <label>Cancellation Reason:</label>
+                        <select class="form-control" id="cancelReason">
+                            <option value="customer_request">Customer Request</option>
+                            <option value="out_of_stock">Out of Stock</option>
+                            <option value="payment_failed">Payment Failed</option>
+                            <option value="duplicate">Duplicate Order</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes:</label>
+                        <textarea class="form-control" id="cancelNotes" rows="3" 
+                                  placeholder="Enter cancellation details..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Keep Order</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmCancel">
+                        Confirm Cancellation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Print View (Hidden) -->
+    <div id="printReceipt" style="display: none;">
+        <!-- Receipt content will be generated here for printing -->
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/search-orders-controller.js"></script>
+
 </body>
 </html>
