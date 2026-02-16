@@ -16,7 +16,7 @@
 <body>
 
     <!-- Navigation Bar -->
-   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="index.html">🏪 POS System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -27,20 +27,25 @@
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="manage-customers.html">Customers<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="manage-customers.html">Customers <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="manage-items.html">Items</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="manage-categories.html">Categories</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="manage-employees.html">Employees</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout </a>
-                </li>
-             
                 <li class="nav-item">
-                    <a class="nav-link" href="search-orders.html">Search</a>
+                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="place-order.html">Place Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search-orders.html">Search Orders</a>
                 </li>
             </ul>
         </div>
@@ -116,21 +121,21 @@
                                     </div>
                                 </div>
 
-                                <!-- Customer Name -->
+                                <!-- Customer Name (REQUIRED) -->
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="txtCustomerName">Customer Name</label>
+                                        <label for="txtCustomerName">Customer Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtCustomerName" 
                                                placeholder="Enter full name" required>
                                     </div>
                                 </div>
 
-                                <!-- Phone -->
+                                <!-- Phone (OPTIONAL - CHANGED!) -->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="txtPhone">Phone Number</label>
+                                        <label for="txtPhone">Phone Number <span class="text-muted">(Optional)</span></label>
                                         <input type="text" class="form-control" id="txtPhone" 
-                                               placeholder="0771234567" required>
+                                               placeholder="0771234567">
                                     </div>
                                 </div>
 
@@ -147,19 +152,19 @@
                             </div>
 
                             <div class="row">
-                                <!-- Address -->
+                                <!-- Address (OPTIONAL - CHANGED!) -->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="txtAddress">Address</label>
+                                        <label for="txtAddress">Address <span class="text-muted">(Optional)</span></label>
                                         <input type="text" class="form-control" id="txtAddress" 
-                                               placeholder="Enter address" required>
+                                               placeholder="Enter address">
                                     </div>
                                 </div>
 
-                                <!-- Email -->
+                                <!-- Email (OPTIONAL) -->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="txtEmail">Email</label>
+                                        <label for="txtEmail">Email <span class="text-muted">(Optional)</span></label>
                                         <input type="email" class="form-control" id="txtEmail" 
                                                placeholder="customer@example.com">
                                     </div>
