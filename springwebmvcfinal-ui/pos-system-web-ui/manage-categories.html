@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories - POS System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: #f5f7fa;
+        }
+        .page-title {
+            color: #2E75B6;
+            font-weight: bold;
+        }
+        .category-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .category-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        .category-item:hover {
+            background: #f8f9fa;
+        }
+        .category-item:last-child {
+            border-bottom: none;
+        }
+        .badge-active {
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+        }
+        .badge-inactive {
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">🏪 POS System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-customers.html">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-items.html">Items</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="manage-categories.html">Categories <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-employees.html">Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2 class="page-title">📁 Category Management</h2>
+        <hr>
+
+        <!-- Category Form -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card category-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Add/Edit Category</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="categoryForm">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="txtCategoryName">Category Name</label>
+                                        <input type="text" class="form-control" id="txtCategoryName" 
+                                               placeholder="e.g., Electronics" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="txtDescription">Description</label>
+                                        <input type="text" class="form-control" id="txtDescription" 
+                                               placeholder="Optional description">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtStatus">Status</label>
+                                        <select class="form-control" id="txtStatus">
+                                            <option value="true">Active</option>
+                                            <option value="false">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-success" id="btnSave">
+                                        💾 Save Category
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;">
+                                        ✏️ Update Category
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="btnDelete" style="display:none;">
+                                        🗑️ Delete Category
+                                    </button>
+                                    <button type="button" class="btn btn-warning" id="btnClear">
+                                        🔄 Clear Form
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories List -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card category-card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">📋 All Categories</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="categoriesList">
+                            <!-- Categories loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-3 bg-dark text-white text-center">
+        <p>&copy; 2025 POS System. All rights reserved.</p>
+    </footer>
+
+    <!-- jQuery & Bootstrap -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Controller -->
+    <script>
+        const API_URL = "http://localhost:8080/api/categories";
+        let currentCategoryId = null;
+
+        $(document).ready(function() {
+            loadCategories();
+            
+            $('#btnSave').click(saveCategory);
+            $('#btnUpdate').click(updateCategory);
+            $('#btnDelete').click(deleteCategory);
+            $('#btnClear').click(clearForm);
+        });
+
+        function loadCategories() {
+            $.ajax({
+                url: API_URL,
+                method: "GET",
+                success: function(categories) {
+                    displayCategories(categories);
+                },
+                error: function() {
+                    showNotification("Error loading categories", "error");
+                }
+            });
+        }
+
+        function displayCategories(categories) {
+            const list = $('#categoriesList');
+            list.empty();
+
+            if (categories.length === 0) {
+                list.html('<div class="text-center py-4">No categories yet</div>');
+                return;
+            }
+
+            categories.forEach(cat => {
+                const statusClass = cat.active ? 'badge-active' : 'badge-inactive';
+                const statusText = cat.active ? 'Active' : 'Inactive';
+
+                const item = $(`
+                    <div class="category-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <strong>${cat.name}</strong>
+                            </div>
+                            <div class="col-md-5">
+                                ${cat.description || 'No description'}
+                            </div>
+                            <div class="col-md-2">
+                                <span class="${statusClass}">${statusText}</span>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-sm btn-primary" onclick="editCategory(${cat.id})">
+                                    ✏️ Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                list.append(item);
+            });
+        }
+
+        function saveCategory() {
+            const data = {
+                name: $('#txtCategoryName').val().trim(),
+                description: $('#txtDescription').val().trim() || null,
+                active: $('#txtStatus').val() === 'true'
+            };
+
+            if (!data.name) {
+                showNotification("Category name is required", "warning");
+                return;
+            }
+
+            $.ajax({
+                url: API_URL,
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function() {
+                    showNotification("Category saved!", "success");
+                    clearForm();
+                    loadCategories();
+                },
+                error: function() {
+                    showNotification("Error saving category", "error");
+                }
+            });
+        }
+
+        function editCategory(id) {
+            $.ajax({
+                url: `${API_URL}/${id}`,
+                method: "GET",
+                success: function(cat) {
+                    currentCategoryId = cat.id;
+                    $('#txtCategoryName').val(cat.name);
+                    $('#txtDescription').val(cat.description);
+                    $('#txtStatus').val(cat.active ? 'true' : 'false');
+                    
+                    $('#btnSave').hide();
+                    $('#btnUpdate, #btnDelete').show();
+                }
+            });
+        }
+
+        function updateCategory() {
+            const data = {
+                id: currentCategoryId,
+                name: $('#txtCategoryName').val().trim(),
+                description: $('#txtDescription').val().trim() || null,
+                active: $('#txtStatus').val() === 'true'
+            };
+
+            $.ajax({
+                url: `${API_URL}/${currentCategoryId}`,
+                method: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function() {
+                    showNotification("Category updated!", "success");
+                    clearForm();
+                    loadCategories();
+                },
+                error: function() {
+                    showNotification("Error updating category", "error");
+                }
+            });
+        }
+
+        function deleteCategory() {
+            if (!confirm("Delete this category?")) return;
+
+            $.ajax({
+                url: `${API_URL}/${currentCategoryId}`,
+                method: "DELETE",
+                success: function() {
+                    showNotification("Category deleted!", "success");
+                    clearForm();
+                    loadCategories();
+                },
+                error: function() {
+                    showNotification("Cannot delete - category may be in use", "error");
+                }
+            });
+        }
+
+        function clearForm() {
+            $('#categoryForm')[0].reset();
+            currentCategoryId = null;
+            $('#btnSave').show();
+            $('#btnUpdate, #btnDelete').hide();
+        }
+
+        function showNotification(message, type) {
+            const alertClass = type === 'success' ? 'alert-success' : 
+                             type === 'error' ? 'alert-danger' : 'alert-warning';
+            
+            const alert = $(`
+                <div class="alert ${alertClass} alert-dismissible fade show" 
+                     style="position:fixed;top:70px;right:20px;z-index:9999;min-width:300px;">
+                    ${message}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            `);
+            
+            $('body').append(alert);
+            setTimeout(() => alert.alert('close'), 3000);
+        }
+    </script>
+
+</body>
+</html>
