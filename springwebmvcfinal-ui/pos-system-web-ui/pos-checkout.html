@@ -11,12 +11,21 @@
 </head>
 <body>
 
-<!-- ═══════════════ NAV BAR ═══════════════ -->
+<!-- ═══════════════════════════════════════════════════
+     NAV BAR — Settings & Calculator on LEFT side
+═══════════════════════════════════════════════════ -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-pos">
+
+    <!-- LEFT: Brand + Settings + Calculator -->
     <a class="navbar-brand font-weight-bold" href="index.html">🏪 POS System</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+
+    <!-- ⚙️ Settings Button -->
+    <button class="nav-icon-btn" id="btnSettings" title="Settings">⚙️</button>
+
+    <!-- 🧮 Calculator Button -->
+    
+
+    <!-- RIGHT: Nav links -->
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
@@ -27,23 +36,140 @@
             <li class="nav-item active">
                 <a class="nav-link" href="pos-checkout.html">🛒 POS <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="search-orders.html">Orders</a></li>
+            <li class="nav-item"><a class="nav-link" href="search-orders.html">search Orders</a></li>
         </ul>
     </div>
+    <button class="nav-icon-btn" id="btnCalc" title="Calculator">🧮</button>
+
+    <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 </nav>
 
-<!-- ═══════════════ MAIN POS LAYOUT ═══════════════ -->
-<!-- Exactly as your sketch: LEFT big | RIGHT narrow -->
+
+<!-- ═══════════════════════════════════════════════════
+     CALCULATOR POPUP (pure JS logic, no libraries)
+═══════════════════════════════════════════════════ -->
+<div class="popup-panel" id="calcPanel">
+    <div class="popup-header">
+        <span>🧮 Calculator</span>
+        <button class="popup-close" id="calcClose">✕</button>
+    </div>
+    <div class="calc-wrap">
+        <!-- Display -->
+        <div class="calc-display">
+            <div class="calc-expr" id="calcExpr">&nbsp;</div>
+            <div class="calc-result" id="calcResult">0</div>
+        </div>
+        <!-- Buttons grid -->
+        <div class="calc-grid">
+            <!-- Row 1 -->
+            <button class="cb cb-fn" data-action="clear">AC</button>
+            <button class="cb cb-fn" data-action="sign">+/−</button>
+            <button class="cb cb-fn" data-action="percent">%</button>
+            <button class="cb cb-op" data-op="÷">÷</button>
+            <!-- Row 2 -->
+            <button class="cb" data-num="7">7</button>
+            <button class="cb" data-num="8">8</button>
+            <button class="cb" data-num="9">9</button>
+            <button class="cb cb-op" data-op="×">×</button>
+            <!-- Row 3 -->
+            <button class="cb" data-num="4">4</button>
+            <button class="cb" data-num="5">5</button>
+            <button class="cb" data-num="6">6</button>
+            <button class="cb cb-op" data-op="−">−</button>
+            <!-- Row 4 -->
+            <button class="cb" data-num="1">1</button>
+            <button class="cb" data-num="2">2</button>
+            <button class="cb" data-num="3">3</button>
+            <button class="cb cb-op" data-op="+">+</button>
+            <!-- Row 5 -->
+            <button class="cb cb-zero" data-num="0">0</button>
+            <button class="cb" data-num=".">.</button>
+            <button class="cb cb-eq" data-action="equals">=</button>
+        </div>
+        <!-- Use in POS -->
+        <button class="calc-use-btn" id="calcUseTotals">
+            ➕ Use in Amount Received
+        </button>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SETTINGS POPUP
+═══════════════════════════════════════════════════ -->
+<div class="popup-panel" id="settingsPanel">
+    <div class="popup-header">
+        <span>⚙️ Settings</span>
+        <button class="popup-close" id="settingsClose">✕</button>
+    </div>
+    <div class="settings-body">
+
+        <div class="settings-section">
+            <div class="settings-label">🏪 Store Name</div>
+            <input type="text" id="sStoreName" class="settings-input" placeholder="My Store">
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label">💱 Default Currency</div>
+            <select id="sCurrency" class="settings-input">
+                <option value="Rs.">Rs. — Sri Lanka Rupee</option>
+                <option value="$">$ — US Dollar</option>
+                <option value="€">€ — Euro</option>
+                <option value="£">£ — British Pound</option>
+                <option value="₹">₹ — Indian Rupee</option>
+                <option value="¥">¥ — Japanese Yen</option>
+                <option value="AED">AED — UAE Dirham</option>
+            </select>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label">🧾 Tax Rate (%)</div>
+            <input type="number" id="sTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label">🖨️ Auto-print Receipt</div>
+            <label class="toggle-label">
+                <input type="checkbox" id="sAutoPrint">
+                <span class="toggle-track"></span>
+                <span class="toggle-text">Off</span>
+            </label>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label">🔔 Sound on Add to Cart</div>
+            <label class="toggle-label">
+                <input type="checkbox" id="sSound" checked>
+                <span class="toggle-track"></span>
+                <span class="toggle-text">On</span>
+            </label>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label">👤 Cashier Name</div>
+            <input type="text" id="sCashierName" class="settings-input" placeholder="Admin">
+        </div>
+
+        <button class="settings-save-btn" id="btnSaveSettings">💾 Save Settings</button>
+    </div>
+</div>
+
+<!-- Backdrop for popups -->
+<div class="popup-backdrop" id="popupBackdrop"></div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     MAIN POS LAYOUT
+═══════════════════════════════════════════════════ -->
 <div class="pos-wrapper">
     <div class="pos-layout">
 
-        <!-- ══════════════════════════════════════════
-             LEFT SECTION (big area)
-             Stats → Search/Category → Cart → Totals
-        ══════════════════════════════════════════ -->
+        <!-- ═══════ LEFT SECTION ═══════ -->
         <div class="pos-left">
 
-            <!-- STATS BAR (Today's Sales | Transaction | Cashier) -->
+            <!-- STATS BAR -->
             <div class="stats-bar">
                 <div class="stat-pill">
                     <span class="stat-lbl">Today's Sales</span>
@@ -59,29 +185,25 @@
                 </div>
             </div>
 
-            <!-- SEARCH + CATEGORY ROW -->
+            <!-- SEARCH + CATEGORY -->
             <div class="search-row">
                 <div class="search-wrap">
                     <span class="search-icon">🔍</span>
                     <input type="text" id="productSearch" class="search-input"
                            placeholder="Search product by name or scan barcode..." autofocus>
+                    <div class="product-results" id="productResults" style="display:none;"></div>
                 </div>
                 <select id="categoryFilter" class="category-select">
                     <option value="">All Categories</option>
-                    <!-- loaded dynamically -->
                 </select>
             </div>
 
-            <!-- CART ITEMS TABLE (the big box in your sketch) -->
+            <!-- CART BOX -->
             <div class="cart-box">
                 <div class="cart-box-header">
                     <span>🛒 Cart Items &nbsp;<span class="cart-count" id="cartCount">0 items</span></span>
-                    <div class="cart-header-right"><button class="btn-clear-cart" id="btnClearCart">🗑 Clear</button>
-                        <span class="text-muted" style="font-size:12px;" id="cartProductCount"></span>
-                    </div>
+                    <button class="btn-clear-cart" id="btnClearCart">🗑 Clear</button>
                 </div>
-
-                <!-- Table header -->
                 <div class="cart-table-head">
                     <span class="col-name">Product</span>
                     <span class="col-qty">Qty</span>
@@ -89,23 +211,16 @@
                     <span class="col-total">Total</span>
                     <span class="col-action"></span>
                 </div>
-
-                <!-- Table body — scrollable -->
                 <div class="cart-table-body" id="cartItems">
-                    <div class="cart-empty" id="cartEmpty">
+                    <div class="cart-empty">
                         <div style="font-size:48px;">🛒</div>
                         <p>Cart is empty</p>
                         <small>Search or scan a product to add it</small>
                     </div>
                 </div>
-
-                <!-- PRODUCT QUICK-ADD (pops up when searching) -->
-                <div class="product-results" id="productResults" style="display:none;">
-                    <!-- Search results shown here as clickable rows -->
-                </div>
             </div>
 
-            <!-- TOTALS BAR (Subtotal | Discount | Total) -->
+            <!-- TOTALS BAR -->
             <div class="totals-bar">
                 <div class="total-item">
                     <span class="total-lbl">Subtotal:</span>
@@ -113,8 +228,7 @@
                 </div>
                 <div class="total-item discount-item">
                     <span class="total-lbl">Discount:</span>
-                    <input type="number" id="discountPercent" class="discount-input"
-                           value="0" min="0" max="100" step="1">
+                    <input type="number" id="discountPercent" class="discount-input" value="0" min="0" max="100" step="1">
                     <span class="total-lbl">%</span>
                     <span class="total-val text-danger" id="discountAmount">- Rs. 0.00</span>
                 </div>
@@ -126,10 +240,8 @@
 
         </div><!-- /pos-left -->
 
-        <!-- ══════════════════════════════════════════
-             RIGHT SECTION (narrow panel)
-             Customer → Payment → Buttons
-        ══════════════════════════════════════════ -->
+
+        <!-- ═══════ RIGHT SECTION ═══════ -->
         <div class="pos-right">
 
             <!-- CUSTOMER -->
@@ -140,8 +252,42 @@
                 </div>
                 <div class="customer-info" id="customerDisplay">
                     <div class="cust-name">Walk-in Customer</div>
-                    <div class="cust-detail" id="custDetail">—</div>
+                    <div class="cust-detail">—</div>
                 </div>
+            </div>
+
+            <!-- CURRENCY CONVERTER -->
+            <div class="right-section currency-section">
+                <div class="right-section-title">💱 Currency Converter</div>
+                <div class="currency-total-row">
+                    <span class="currency-lbl">POS Total:</span>
+                    <span class="currency-pos-total" id="currPosTotal">Rs. 0.00</span>
+                </div>
+                <div class="currency-row">
+                    <select id="currFrom" class="curr-select">
+                        <option value="LKR" data-symbol="Rs.">Rs. LKR</option>
+                        <option value="USD" data-symbol="$">$ USD</option>
+                        <option value="EUR" data-symbol="€">€ EUR</option>
+                        <option value="GBP" data-symbol="£">£ GBP</option>
+                        <option value="INR" data-symbol="₹">₹ INR</option>
+                        <option value="JPY" data-symbol="¥">¥ JPY</option>
+                        <option value="AED" data-symbol="AED">AED</option>
+                    </select>
+                    <span class="curr-arrow">→</span>
+                    <select id="currTo" class="curr-select">
+                        <option value="USD" data-symbol="$">$ USD</option>
+                        <option value="LKR" data-symbol="Rs.">IQ dinar</option>
+                        <option value="EUR" data-symbol="€">€ EUR</option>
+                        <option value="GBP" data-symbol="£">£ GBP</option>
+
+                    </select>
+                </div>
+                <div class="currency-input-row">
+                    <input type="number" id="currAmount" class="curr-amount-input" placeholder="0.00" step="0.01">
+                    <button class="curr-convert-btn" id="btnConvert">Convert</button>
+                </div>
+                <div class="currency-result" id="currResult">—</div>
+                <div class="curr-rate-row" id="currRateRow"></div>
             </div>
 
             <!-- PAYMENT METHOD -->
@@ -152,12 +298,9 @@
                     <button class="pay-btn" data-method="CARD">💳 Card</button>
                     <button class="pay-btn" data-method="TRANSFER">🏦 Transfer</button>
                 </div>
-
-                <!-- Cash input (as is in sketch) -->
                 <div id="cashSection" class="cash-section">
                     <label class="cash-label">Amount Received</label>
-                    <input type="number" id="amountReceived" class="cash-input"
-                           placeholder="0.00" step="0.01">
+                    <input type="number" id="amountReceived" class="cash-input" placeholder="0.00" step="0.01">
                     <div class="change-row">
                         <span>Change:</span>
                         <span id="changeAmount" class="change-val">Rs. 0.00</span>
@@ -165,42 +308,29 @@
                 </div>
             </div>
 
-            <!-- ACTION BUTTONS (Complete Sale | Hold | Cancel | Return) -->
+            <!-- ACTION BUTTONS -->
             <div class="right-section action-section">
-
-                <!-- BIG GREEN COMPLETE SALE -->
-                <button class="btn-complete" id="btnCompleteSale">
-                    ✅ Complete Sale
-                </button>
-
-                <!-- HOLD + CANCEL side by side -->
+                <button class="btn-complete" id="btnCompleteSale">✅ Complete Sale</button>
                 <div class="btn-row-2">
                     <button class="btn-hold" id="btnHold">⏸ Hold</button>
                     <button class="btn-cancel" id="btnCancel">✕ Cancel</button>
                 </div>
-
-                <!-- RETURN full width -->
-                <button class="btn-return" id="btnReturn">
-                    ↩ Return
-                </button>
-
+                <button class="btn-return" id="btnReturn">↩ Return</button>
             </div>
 
         </div><!-- /pos-right -->
 
-    </div><!-- /pos-layout -->
-</div><!-- /pos-wrapper -->
+    </div>
+</div>
 
 
-<!-- ═══════════════ RECEIPT MODAL ═══════════════ -->
+<!-- ═══════ RECEIPT MODAL ═══════ -->
 <div class="modal fade" id="receiptModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title">✅ Sale Complete!</h5>
-                <button type="button" class="close text-white" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
+                <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body" id="receiptContent"></div>
             <div class="modal-footer">
@@ -211,31 +341,26 @@
     </div>
 </div>
 
-<!-- ═══════════════ CUSTOMER MODAL ═══════════════ -->
+<!-- ═══════ CUSTOMER MODAL ═══════ -->
 <div class="modal fade" id="customerModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">👤 Select Customer</h5>
-                <button type="button" class="close text-white" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
+                <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control mb-3" id="customerSearch"
-                       placeholder="Search by name or phone...">
+                <input type="text" class="form-control mb-3" id="customerSearch" placeholder="Search by name or phone...">
                 <div id="customerList" style="max-height:350px;overflow-y:auto;"></div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" id="btnWalkin" data-dismiss="modal">
-                    Walk-in Customer
-                </button>
+                <button class="btn btn-secondary" id="btnWalkin" data-dismiss="modal">Walk-in Customer</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ═══════════════ RETURN MODAL ═══════════════ -->
+<!-- ═══════ RETURN MODAL ═══════ -->
 <div class="modal fade" id="returnModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -246,11 +371,10 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Order Number</label>
-                    <input type="text" class="form-control" id="returnOrderNumber"
-                           placeholder="e.g. ORD0000001">
+                    <input type="text" class="form-control" id="returnOrderNumber" placeholder="e.g. ORD0000001">
                 </div>
                 <div class="form-group">
-                    <label>Reason for Return</label>
+                    <label>Reason</label>
                     <select class="form-control" id="returnReason">
                         <option value="">Select reason</option>
                         <option value="DEFECTIVE">Defective Item</option>
@@ -261,8 +385,7 @@
                 </div>
                 <div class="form-group">
                     <label>Notes</label>
-                    <textarea class="form-control" id="returnNotes" rows="2"
-                              placeholder="Optional notes..."></textarea>
+                    <textarea class="form-control" id="returnNotes" rows="2" placeholder="Optional..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
