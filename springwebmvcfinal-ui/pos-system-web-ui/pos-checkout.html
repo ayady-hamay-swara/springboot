@@ -3,313 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS Checkout - Point of Sale</title>
-    
-    <!-- Bootstrap CSS -->
+    <title>POS Checkout</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
-    
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/pos-checkout.css">
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="index.html">🏪 POS System</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-customers.html">Customers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-items.html">Items</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-employees.html">Employees</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout <span class="sr-only">(current)</span></a>
-                </li>
-             
-                <li class="nav-item">
-                    <a class="nav-link" href="search-orders.html">Search</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<!-- ═══════════════ NAV BAR ═══════════════ -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-pos">
+    <a class="navbar-brand font-weight-bold" href="index.html">🏪 POS System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="manage-customers.html">Customers</a></li>
+            <li class="nav-item"><a class="nav-link" href="manage-items.html">Items</a></li>
+            <li class="nav-item"><a class="nav-link" href="manage-categories.html">Categories</a></li>
+            <li class="nav-item"><a class="nav-link" href="manage-employees.html">Employees</a></li>
+            <li class="nav-item active">
+                <a class="nav-link" href="pos-checkout.html">🛒 POS <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="search-orders.html">Orders</a></li>
+        </ul>
+    </div>
+</nav>
 
-    <!-- Main POS Interface -->
-    <div class="container-fluid pos-container">
-        <div class="row">
-            
-            <!-- LEFT SIDE: Product Selection & Search -->
-            <div class="col-md-7 products-section">
-                
-                <!-- Quick Stats Bar -->
-                <div class="stats-bar">
-                    <div class="stat-item">
-                        <span class="stat-label">Today's Sales</span>
-                        <span class="stat-value" id="todaySales">Rs. 0.00</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Transactions</span>
-                        <span class="stat-value" id="todayTransactions">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Cashier</span>
-                        <span class="stat-value" id="cashierName">Admin</span>
+<!-- ═══════════════ MAIN POS LAYOUT ═══════════════ -->
+<!-- Exactly as your sketch: LEFT big | RIGHT narrow -->
+<div class="pos-wrapper">
+    <div class="pos-layout">
+
+        <!-- ══════════════════════════════════════════
+             LEFT SECTION (big area)
+             Stats → Search/Category → Cart → Totals
+        ══════════════════════════════════════════ -->
+        <div class="pos-left">
+
+            <!-- STATS BAR (Today's Sales | Transaction | Cashier) -->
+            <div class="stats-bar">
+                <div class="stat-pill">
+                    <span class="stat-lbl">Today's Sales</span>
+                    <span class="stat-val" id="todaySales">Rs. 0.00</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-lbl">Transaction</span>
+                    <span class="stat-val" id="todayTransactions">0</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-lbl">Cashier</span>
+                    <span class="stat-val" id="cashierName">Admin</span>
+                </div>
+            </div>
+
+            <!-- SEARCH + CATEGORY ROW -->
+            <div class="search-row">
+                <div class="search-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="productSearch" class="search-input"
+                           placeholder="Search product by name or scan barcode..." autofocus>
+                </div>
+                <select id="categoryFilter" class="category-select">
+                    <option value="">All Categories</option>
+                    <!-- loaded dynamically -->
+                </select>
+            </div>
+
+            <!-- CART ITEMS TABLE (the big box in your sketch) -->
+            <div class="cart-box">
+                <div class="cart-box-header">
+                    <span>🛒 Cart Items &nbsp;<span class="cart-count" id="cartCount">0 items</span></span>
+                    <div class="cart-header-right"><button class="btn-clear-cart" id="btnClearCart">🗑 Clear</button>
+                        <span class="text-muted" style="font-size:12px;" id="cartProductCount"></span>
                     </div>
                 </div>
 
-                <!-- Search & Category Filter -->
-                <div class="search-section">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="search-box">
-                                <input type="text" class="form-control form-control-lg" 
-                                       id="productSearch" 
-                                       placeholder="🔍 Search product by name or scan barcode...">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <select class="form-control form-control-lg" id="categoryFilter">
-                                <option value="">All Categories</option>
-                                <option value="Electronics">Electronics</option>
-                                <option value="Accessories">Accessories</option>
-                                <option value="Furniture">Furniture</option>
-                                <option value="Stationery">Stationery</option>
-                                <option value="Food & Beverage">Food & Beverage</option>
-                                <option value="General">General</option>
-                            </select>
-                        </div>
+                <!-- Table header -->
+                <div class="cart-table-head">
+                    <span class="col-name">Product</span>
+                    <span class="col-qty">Qty</span>
+                    <span class="col-price">Unit Price</span>
+                    <span class="col-total">Total</span>
+                    <span class="col-action"></span>
+                </div>
+
+                <!-- Table body — scrollable -->
+                <div class="cart-table-body" id="cartItems">
+                    <div class="cart-empty" id="cartEmpty">
+                        <div style="font-size:48px;">🛒</div>
+                        <p>Cart is empty</p>
+                        <small>Search or scan a product to add it</small>
                     </div>
                 </div>
 
-                <!-- Product Grid -->
-                <div class="products-grid" id="productsGrid">
-                    <!-- Products will be loaded here dynamically -->
-                    <div class="loading-spinner">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="sr-only">Loading products...</span>
-                        </div>
+                <!-- PRODUCT QUICK-ADD (pops up when searching) -->
+                <div class="product-results" id="productResults" style="display:none;">
+                    <!-- Search results shown here as clickable rows -->
+                </div>
+            </div>
+
+            <!-- TOTALS BAR (Subtotal | Discount | Total) -->
+            <div class="totals-bar">
+                <div class="total-item">
+                    <span class="total-lbl">Subtotal:</span>
+                    <span class="total-val" id="subtotal">Rs. 0.00</span>
+                </div>
+                <div class="total-item discount-item">
+                    <span class="total-lbl">Discount:</span>
+                    <input type="number" id="discountPercent" class="discount-input"
+                           value="0" min="0" max="100" step="1">
+                    <span class="total-lbl">%</span>
+                    <span class="total-val text-danger" id="discountAmount">- Rs. 0.00</span>
+                </div>
+                <div class="total-item total-final">
+                    <span class="total-lbl">Total:</span>
+                    <span class="total-val" id="totalAmount">Rs. 0.00</span>
+                </div>
+            </div>
+
+        </div><!-- /pos-left -->
+
+        <!-- ══════════════════════════════════════════
+             RIGHT SECTION (narrow panel)
+             Customer → Payment → Buttons
+        ══════════════════════════════════════════ -->
+        <div class="pos-right">
+
+            <!-- CUSTOMER -->
+            <div class="right-section customer-section">
+                <div class="right-section-title">
+                    <span>👤 Customer</span>
+                    <button class="btn-change" id="btnSelectCustomer">Change</button>
+                </div>
+                <div class="customer-info" id="customerDisplay">
+                    <div class="cust-name">Walk-in Customer</div>
+                    <div class="cust-detail" id="custDetail">—</div>
+                </div>
+            </div>
+
+            <!-- PAYMENT METHOD -->
+            <div class="right-section payment-section">
+                <div class="right-section-title">💳 Payment Method</div>
+                <div class="payment-btns">
+                    <button class="pay-btn active" data-method="CASH">💵 Cash</button>
+                    <button class="pay-btn" data-method="CARD">💳 Card</button>
+                    <button class="pay-btn" data-method="TRANSFER">🏦 Transfer</button>
+                </div>
+
+                <!-- Cash input (as is in sketch) -->
+                <div id="cashSection" class="cash-section">
+                    <label class="cash-label">Amount Received</label>
+                    <input type="number" id="amountReceived" class="cash-input"
+                           placeholder="0.00" step="0.01">
+                    <div class="change-row">
+                        <span>Change:</span>
+                        <span id="changeAmount" class="change-val">Rs. 0.00</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- ACTION BUTTONS (Complete Sale | Hold | Cancel | Return) -->
+            <div class="right-section action-section">
+
+                <!-- BIG GREEN COMPLETE SALE -->
+                <button class="btn-complete" id="btnCompleteSale">
+                    ✅ Complete Sale
+                </button>
+
+                <!-- HOLD + CANCEL side by side -->
+                <div class="btn-row-2">
+                    <button class="btn-hold" id="btnHold">⏸ Hold</button>
+                    <button class="btn-cancel" id="btnCancel">✕ Cancel</button>
+                </div>
+
+                <!-- RETURN full width -->
+                <button class="btn-return" id="btnReturn">
+                    ↩ Return
+                </button>
 
             </div>
 
-            <!-- RIGHT SIDE: Cart & Checkout -->
-            <div class="col-md-5 cart-section">
-                
-                <!-- Customer Info -->
-                <div class="customer-section">
-                    <div class="customer-header">
-                        <h5>👤 Customer</h5>
-                        <button class="btn btn-sm btn-outline-primary" id="btnSelectCustomer">
-                            Change Customer
-                        </button>
-                    </div>
-                    <div class="customer-info" id="customerInfo">
-                        <div class="customer-name">Walk-in Customer</div>
-                        <div class="customer-details">No customer selected</div>
-                    </div>
-                </div>
+        </div><!-- /pos-right -->
 
-                <!-- Shopping Cart -->
-                <div class="cart-container">
-                    <div class="cart-header">
-                        <h5>🛒 Cart Items</h5>
-                        <button class="btn btn-sm btn-danger" id="btnClearCart">Clear All</button>
-                    </div>
+    </div><!-- /pos-layout -->
+</div><!-- /pos-wrapper -->
 
-                    <div class="cart-items" id="cartItems">
-                        <!-- Cart items will be added here -->
-                        <div class="empty-cart">
-                            <div class="empty-cart-icon">🛒</div>
-                            <p>Cart is empty</p>
-                            <small>Scan or select products to add</small>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Order Summary -->
-                <div class="order-summary">
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span id="subtotal">Rs. 0.00</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Discount:</span>
-                        <div class="discount-input">
-                            <input type="number" class="form-control form-control-sm" 
-                                   id="discountPercent" value="0" min="0" max="100" step="1">
-                            <span>%</span>
-                            <span class="discount-amount" id="discountAmount">Rs. 0.00</span>
-                        </div>
-                    </div>
-                    <div class="summary-row">
-                        <span>Tax (0%):</span>
-                        <span id="taxAmount">Rs. 0.00</span>
-                    </div>
-                    <div class="summary-row total-row">
-                        <span>TOTAL:</span>
-                        <span id="totalAmount">Rs. 0.00</span>
-                    </div>
-                </div>
-
-                <!-- Payment Section -->
-                <div class="payment-section">
-                    <h6>💳 Payment Method</h6>
-                    <div class="payment-methods">
-                        <button class="payment-btn active" data-method="CASH">
-                            💵 Cash
-                        </button>
-                        <button class="payment-btn" data-method="CARD">
-                            💳 Card
-                        </button>
-                        <button class="payment-btn" data-method="TRANSFER">
-                            🏦 Transfer
-                        </button>
-                    </div>
-
-                    <!-- Cash Payment Details -->
-                    <div class="cash-payment" id="cashPayment">
-                        <div class="form-group">
-                            <label>Amount Received:</label>
-                            <input type="number" class="form-control form-control-lg" 
-                                   id="amountReceived" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="change-display">
-                            <span>Change:</span>
-                            <span class="change-amount" id="changeAmount">Rs. 0.00</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn btn-lg btn-success btn-block" id="btnCompleteSale">
-                        ✓ Complete Sale
-                    </button>
-                    <div class="row mt-2">
-                        <div class="col-6">
-                            <button class="btn btn-outline-secondary btn-block" id="btnHoldSale">
-                                ⏸ Hold
-                            </button>
-                        </div>
-                        <div class="col-6">
-                            <button class="btn btn-outline-danger btn-block" id="btnCancelSale">
-                                ✕ Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+<!-- ═══════════════ RECEIPT MODAL ═══════════════ -->
+<div class="modal fade" id="receiptModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">✅ Sale Complete!</h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="receiptContent"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+                <button class="btn btn-success" data-dismiss="modal" id="btnNewSale">➕ New Sale</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Customer Selection Modal -->
-    <div class="modal fade" id="customerModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Select Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="customerSearch" 
-                               placeholder="Search by name, phone, or ID...">
-                    </div>
-                    <div class="customer-list" id="customerList">
-                        <!-- Customer list will be loaded here -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btnWalkIn">Walk-in Customer</button>
-                </div>
+<!-- ═══════════════ CUSTOMER MODAL ═══════════════ -->
+<div class="modal fade" id="customerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">👤 Select Customer</h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" id="customerSearch"
+                       placeholder="Search by name or phone...">
+                <div id="customerList" style="max-height:350px;overflow-y:auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnWalkin" data-dismiss="modal">
+                    Walk-in Customer
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Receipt Modal -->
-    <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Receipt</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
+<!-- ═══════════════ RETURN MODAL ═══════════════ -->
+<div class="modal fade" id="returnModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">↩ Process Return</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Order Number</label>
+                    <input type="text" class="form-control" id="returnOrderNumber"
+                           placeholder="e.g. ORD0000001">
                 </div>
-                <div class="modal-body">
-                    <div id="receiptContent" class="receipt">
-                        <!-- Receipt will be generated here -->
-                    </div>
+                <div class="form-group">
+                    <label>Reason for Return</label>
+                    <select class="form-control" id="returnReason">
+                        <option value="">Select reason</option>
+                        <option value="DEFECTIVE">Defective Item</option>
+                        <option value="WRONG_ITEM">Wrong Item</option>
+                        <option value="CUSTOMER_CHANGE">Customer Changed Mind</option>
+                        <option value="OTHER">Other</option>
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btnPrintReceipt">🖨️ Print</button>
-                    <button type="button" class="btn btn-success" id="btnNewSale">New Sale</button>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea class="form-control" id="returnNotes" rows="2"
+                              placeholder="Optional notes..."></textarea>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-warning" id="btnProcessReturn">Process Return</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Numpad Modal (for quick amount entry) -->
-    <div class="modal fade" id="numpadModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Enter Amount</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control form-control-lg text-right" 
-                           id="numpadDisplay" readonly value="0">
-                    <div class="numpad">
-                        <button class="numpad-btn">7</button>
-                        <button class="numpad-btn">8</button>
-                        <button class="numpad-btn">9</button>
-                        <button class="numpad-btn">4</button>
-                        <button class="numpad-btn">5</button>
-                        <button class="numpad-btn">6</button>
-                        <button class="numpad-btn">1</button>
-                        <button class="numpad-btn">2</button>
-                        <button class="numpad-btn">3</button>
-                        <button class="numpad-btn">.</button>
-                        <button class="numpad-btn">0</button>
-                        <button class="numpad-btn numpad-clear">C</button>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="btnNumpadOk">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- jQuery -->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Custom JS -->
-    <script src="js/pos-checkout-controller.js"></script>
-
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/pos-checkout-controller.js"></script>
 </body>
 </html>
