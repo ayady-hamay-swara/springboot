@@ -8,399 +8,432 @@
     <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="css/pos-checkout.css">
-        <!-- ADD THIS - Global Navbar CSS -->
-    <link rel="stylesheet" href="css/navbar-global.css">S
+    <!-- Global Navbar CSS -->
+    <link rel="stylesheet" href="css/navbar-global.css">
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════
-     NAV BAR — Settings & Calculator on LEFT side
-═══════════════════════════════════════════════════ -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-pos">
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL NAVBAR
+         ════════════════════════════════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
 
-    <!-- LEFT: Brand + Settings + Calculator -->
-    <a class="navbar-brand font-weight-bold" href="index.html">🏪 POS System</a>
+        <a class="navbar-brand font-weight-bold" href="index.html">
+            🏪 <span data-i18n="brand_name">POS System</span>
+        </a>
 
-    <!-- ⚙️ Settings Button -->
-    <button class="nav-icon-btn" id="btnSettings" title="Settings">⚙️</button>
-
-    <!-- 🧮 Calculator Button -->
-    
-
-    <!-- RIGHT: Nav links -->
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-customers.html">Customers</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-items.html">Items</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-categories.html">Categories</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-employees.html">Employees</a></li>
-            <li class="nav-item active">
-                <a class="nav-link" href="pos-checkout.html">🛒 POS <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="search-orders.html">search Orders</a></li>
-        </ul>
-    </div>
-    <button class="nav-icon-btn" id="btnCalc" title="Calculator">🧮</button>
-
-    <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</nav>
-
-
-<!-- ═══════════════════════════════════════════════════
-     CALCULATOR POPUP (pure JS logic, no libraries)
-═══════════════════════════════════════════════════ -->
-<div class="popup-panel" id="calcPanel">
-    <div class="popup-header">
-        <span>🧮 Calculator</span>
-        <button class="popup-close" id="calcClose">✕</button>
-    </div>
-    <div class="calc-wrap">
-        <!-- Display -->
-        <div class="calc-display">
-            <div class="calc-expr" id="calcExpr">&nbsp;</div>
-            <div class="calc-result" id="calcResult">0</div>
+        <div class="navbar-left-actions">
+            <button class="nav-icon-btn" id="btnGlobalSettings" title="Settings">⚙️</button>
+            <button class="nav-icon-btn" id="btnGlobalCalc" title="Calculator">🧮</button>
         </div>
-        <!-- Buttons grid -->
-        <div class="calc-grid">
-            <!-- Row 1 -->
-            <button class="cb cb-fn" data-action="clear">AC</button>
-            <button class="cb cb-fn" data-action="sign">+/−</button>
-            <button class="cb cb-fn" data-action="percent">%</button>
-            <button class="cb cb-op" data-op="÷">÷</button>
-            <!-- Row 2 -->
-            <button class="cb" data-num="7">7</button>
-            <button class="cb" data-num="8">8</button>
-            <button class="cb" data-num="9">9</button>
-            <button class="cb cb-op" data-op="×">×</button>
-            <!-- Row 3 -->
-            <button class="cb" data-num="4">4</button>
-            <button class="cb" data-num="5">5</button>
-            <button class="cb" data-num="6">6</button>
-            <button class="cb cb-op" data-op="−">−</button>
-            <!-- Row 4 -->
-            <button class="cb" data-num="1">1</button>
-            <button class="cb" data-num="2">2</button>
-            <button class="cb" data-num="3">3</button>
-            <button class="cb cb-op" data-op="+">+</button>
-            <!-- Row 5 -->
-            <button class="cb cb-zero" data-num="0">0</button>
-            <button class="cb" data-num=".">.</button>
-            <button class="cb cb-eq" data-action="equals">=</button>
-        </div>
-        <!-- Use in POS -->
-        <button class="calc-use-btn" id="calcUseTotals">
-            ➕ Use in Amount Received
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
+            <span class="navbar-toggler-icon"></span>
         </button>
-    </div>
-</div>
 
+        <div class="collapse navbar-collapse" id="globalNavbar">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html" data-i18n="nav_home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-customers.html" data-i18n="nav_customers">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-items.html" data-i18n="nav_items">Items</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-categories.html" data-i18n="nav_categories">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">Employees</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 POS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search-orders.html" data-i18n="nav_search">Orders</a>
+                </li>
+            </ul>
 
-<!-- ═══════════════════════════════════════════════════
-     SETTINGS POPUP
-═══════════════════════════════════════════════════ -->
-<div class="popup-panel" id="settingsPanel">
-    <div class="popup-header">
-        <span>⚙️ Settings</span>
-        <button class="popup-close" id="settingsClose">✕</button>
-    </div>
-    <div class="settings-body">
-
-        <div class="settings-section">
-            <div class="settings-label">🏪 Store Name</div>
-            <input type="text" id="sStoreName" class="settings-input" placeholder="My Store">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        🌐 <span id="currentLangLabel">English</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                        <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">🇬🇧 English</a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">🟥🟩⚪ کوردی</a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">🇸🇦 العربية</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link text-warning">
+                        👤 <strong id="navbarUsername">Admin</strong>
+                    </span>
+                </li>
+            </ul>
         </div>
+    </nav>
 
-        <div class="settings-section">
-            <div class="settings-label">💱 Default Currency</div>
-            <select id="sCurrency" class="settings-input">
-                <option value="Rs.">Rs. — Sri Lanka Rupee</option>
-                <option value="$">$ — US Dollar</option>
-                <option value="€">€ — Euro</option>
-                <option value="£">£ — British Pound</option>
-                <option value="₹">₹ — Indian Rupee</option>
-                <option value="¥">¥ — Japanese Yen</option>
-                <option value="AED">AED — UAE Dirham</option>
-            </select>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL SETTINGS POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalSettingsPanel">
+        <div class="popup-header">
+            <span>⚙️ <span data-i18n="settings_title">Settings</span></span>
+            <button class="popup-close" id="settingsCloseBtn">✕</button>
         </div>
-
-        <div class="settings-section">
-            <div class="settings-label">🧾 Tax Rate (%)</div>
-            <input type="number" id="sTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
-        </div>
-
-        <div class="settings-section">
-            <div class="settings-label">🖨️ Auto-print Receipt</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="sAutoPrint">
-                <span class="toggle-track"></span>
-                <span class="toggle-text">Off</span>
-            </label>
-        </div>
-
-        <div class="settings-section">
-            <div class="settings-label">🔔 Sound on Add to Cart</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="sSound" checked>
-                <span class="toggle-track"></span>
-                <span class="toggle-text">On</span>
-            </label>
-        </div>
-
-        <div class="settings-section">
-            <div class="settings-label">👤 Cashier Name</div>
-            <input type="text" id="sCashierName" class="settings-input" placeholder="Admin">
-        </div>
-
-        <button class="settings-save-btn" id="btnSaveSettings">💾 Save Settings</button>
-    </div>
-</div>
-
-<!-- Backdrop for popups -->
-<div class="popup-backdrop" id="popupBackdrop"></div>
-
-
-<!-- ═══════════════════════════════════════════════════
-     MAIN POS LAYOUT
-═══════════════════════════════════════════════════ -->
-<div class="pos-wrapper">
-    <div class="pos-layout">
-
-        <!-- ═══════ LEFT SECTION ═══════ -->
-        <div class="pos-left">
-
-            <!-- STATS BAR -->
-            <div class="stats-bar">
-                <div class="stat-pill">
-                    <span class="stat-lbl">Today's Sales</span>
-                    <span class="stat-val" id="todaySales">Rs. 0.00</span>
-                </div>
-                <div class="stat-pill">
-                    <span class="stat-lbl">Transaction</span>
-                    <span class="stat-val" id="todayTransactions">0</span>
-                </div>
-                <div class="stat-pill">
-                    <span class="stat-lbl">Cashier</span>
-                    <span class="stat-val" id="cashierName">Admin</span>
-                </div>
+        <div class="settings-body">
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_store">Store Name</div>
+                <input type="text" id="globalStoreName" class="settings-input" placeholder="My Store">
             </div>
-
-            <!-- SEARCH + CATEGORY -->
-            <div class="search-row">
-                <div class="search-wrap">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="productSearch" class="search-input"
-                           placeholder="Search product by name or scan barcode..." autofocus>
-                    <div class="product-results" id="productResults" style="display:none;"></div>
-                </div>
-                <select id="categoryFilter" class="category-select">
-                    <option value="">All Categories</option>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_currency">Default Currency</div>
+                <select id="globalCurrency" class="settings-input">
+                    <option value="$">$ — US Dollar</option>
+                    <option value="€">€ — Euro</option>
+                    <option value="£">£ — British Pound</option>
+                    <option value="AED">AED — UAE Dirham</option>
+                    <option value="iq">IQ — Iraqi Dinar</option>
                 </select>
             </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_tax">Tax Rate (%)</div>
+                <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_auto_print">Auto-print Receipt</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalAutoPrint">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">Off</span>
+                </label>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_sound">Sound on Add to Cart</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalSound" checked>
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">On</span>
+                </label>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_cashier_name">Cashier Name</div>
+                <input type="text" id="globalCashierName" class="settings-input" placeholder="Admin">
+            </div>
+            <button class="settings-save-btn" id="btnGlobalSaveSettings">
+                💾 <span data-i18n="settings_save">Save Settings</span>
+            </button>
+        </div>
+    </div>
 
-            <!-- CART BOX -->
-            <div class="cart-box">
-                <div class="cart-box-header">
-                    <span>🛒 Cart Items &nbsp;<span class="cart-count" id="cartCount">0 items</span></span>
-                    <button class="btn-clear-cart" id="btnClearCart">🗑 Clear</button>
-                </div>
-                <div class="cart-table-head">
-                    <span class="col-name">Product</span>
-                    <span class="col-qty">Qty</span>
-                    <span class="col-price">Unit Price</span>
-                    <span class="col-total">Total</span>
-                    <span class="col-action"></span>
-                </div>
-                <div class="cart-table-body" id="cartItems">
-                    <div class="cart-empty">
-                        <div style="font-size:48px;">🛒</div>
-                        <p>Cart is empty</p>
-                        <small>Search or scan a product to add it</small>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL CALCULATOR POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalCalcPanel">
+        <div class="popup-header">
+            <span>🧮 <span data-i18n="calc_title">Calculator</span></span>
+            <button class="popup-close" id="calcCloseBtn">✕</button>
+        </div>
+        <div class="calc-wrap">
+            <div class="calc-display">
+                <div class="calc-expr" id="globalCalcExpr">&nbsp;</div>
+                <div class="calc-result" id="globalCalcResult">0</div>
+            </div>
+            <div class="calc-grid">
+                <button class="cb cb-fn" data-action="clear">AC</button>
+                <button class="cb cb-fn" data-action="sign">+/−</button>
+                <button class="cb cb-fn" data-action="percent">%</button>
+                <button class="cb cb-op" data-op="÷">÷</button>
+                <button class="cb" data-num="7">7</button>
+                <button class="cb" data-num="8">8</button>
+                <button class="cb" data-num="9">9</button>
+                <button class="cb cb-op" data-op="×">×</button>
+                <button class="cb" data-num="4">4</button>
+                <button class="cb" data-num="5">5</button>
+                <button class="cb" data-num="6">6</button>
+                <button class="cb cb-op" data-op="−">−</button>
+                <button class="cb" data-num="1">1</button>
+                <button class="cb" data-num="2">2</button>
+                <button class="cb" data-num="3">3</button>
+                <button class="cb cb-op" data-op="+">+</button>
+                <button class="cb cb-zero" data-num="0">0</button>
+                <button class="cb" data-num=".">.</button>
+                <button class="cb cb-eq" data-action="equals">=</button>
+            </div>
+            <button class="calc-use-btn" id="calcUseTotals">
+                ➕ <span data-i18n="calc_use">Use in Amount Received</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Backdrop for popups -->
+    <div class="global-popup-backdrop" id="globalBackdrop"></div>
+
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         MAIN POS LAYOUT
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="pos-wrapper">
+        <div class="pos-layout">
+
+            <!-- ═══════ LEFT SECTION ═══════ -->
+            <div class="pos-left">
+
+                <!-- STATS BAR -->
+                <div class="stats-bar">
+                    <div class="stat-pill">
+                        <span class="stat-lbl" data-i18n="pos_today_sales">Today's Sales</span>
+                        <span class="stat-val" id="todaySales">Rs. 0.00</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-lbl" data-i18n="pos_transactions">Transaction</span>
+                        <span class="stat-val" id="todayTransactions">0</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-lbl" data-i18n="pos_cashier">Cashier</span>
+                        <span class="stat-val" id="cashierName">Admin</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- TOTALS BAR -->
-            <div class="totals-bar">
-                <div class="total-item">
-                    <span class="total-lbl">Subtotal:</span>
-                    <span class="total-val" id="subtotal">Rs. 0.00</span>
-                </div>
-                <div class="total-item discount-item">
-                    <span class="total-lbl">Discount:</span>
-                    <input type="number" id="discountPercent" class="discount-input" value="0" min="0" max="100" step="1">
-                    <span class="total-lbl">%</span>
-                    <span class="total-val text-danger" id="discountAmount">- Rs. 0.00</span>
-                </div>
-                <div class="total-item total-final">
-                    <span class="total-lbl">Total:</span>
-                    <span class="total-val" id="totalAmount">Rs. 0.00</span>
-                </div>
-            </div>
-
-        </div><!-- /pos-left -->
-
-
-        <!-- ═══════ RIGHT SECTION ═══════ -->
-        <div class="pos-right">
-
-            <!-- CUSTOMER -->
-            <div class="right-section customer-section">
-                <div class="right-section-title">
-                    <span>👤 Customer</span>
-                    <button class="btn-change" id="btnSelectCustomer">Change</button>
-                </div>
-                <div class="customer-info" id="customerDisplay">
-                    <div class="cust-name">Walk-in Customer</div>
-                    <div class="cust-detail">—</div>
-                </div>
-            </div>
-
-            <!-- CURRENCY CONVERTER -->
-            <div class="right-section currency-section">
-                <div class="right-section-title">💱 Currency Converter</div>
-                <div class="currency-total-row">
-                    <span class="currency-lbl">POS Total:</span>
-                    <span class="currency-pos-total" id="currPosTotal">Rs. 0.00</span>
-                </div>
-                <div class="currency-row">
-                    <select id="currFrom" class="curr-select">
-                        <option value="LKR" data-symbol="Rs.">Rs. LKR</option>
-                        <option value="USD" data-symbol="$">$ USD</option>
-                        <option value="EUR" data-symbol="€">€ EUR</option>
-                        <option value="GBP" data-symbol="£">£ GBP</option>
-                        <option value="INR" data-symbol="₹">₹ INR</option>
-                        <option value="JPY" data-symbol="¥">¥ JPY</option>
-                        <option value="AED" data-symbol="AED">AED</option>
-                    </select>
-                    <span class="curr-arrow">→</span>
-                    <select id="currTo" class="curr-select">
-                        <option value="USD" data-symbol="$">$ USD</option>
-                        <option value="LKR" data-symbol="Rs.">IQ dinar</option>
-                        <option value="EUR" data-symbol="€">€ EUR</option>
-                        <option value="GBP" data-symbol="£">£ GBP</option>
-
+                <!-- SEARCH + CATEGORY -->
+                <div class="search-row">
+                    <div class="search-wrap">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="productSearch" class="search-input"
+                               data-i18n="pos_search_placeholder"
+                               placeholder="Search product by name or scan barcode..." autofocus>
+                        <div class="product-results" id="productResults" style="display:none;"></div>
+                    </div>
+                    <select id="categoryFilter" class="category-select">
+                        <option value="" data-i18n="pos_all_categories">All Categories</option>
                     </select>
                 </div>
-                <div class="currency-input-row">
-                    <input type="number" id="currAmount" class="curr-amount-input" placeholder="0.00" step="0.01">
-                    <button class="curr-convert-btn" id="btnConvert">Convert</button>
-                </div>
-                <div class="currency-result" id="currResult">—</div>
-                <div class="curr-rate-row" id="currRateRow"></div>
-            </div>
 
-            <!-- PAYMENT METHOD -->
-            <div class="right-section payment-section">
-                <div class="right-section-title">💳 Payment Method</div>
-                <div class="payment-btns">
-                    <button class="pay-btn active" data-method="CASH">💵 Cash</button>
-                    <button class="pay-btn" data-method="CARD">💳 Card</button>
-                    <button class="pay-btn" data-method="TRANSFER">🏦 Transfer</button>
-                </div>
-                <div id="cashSection" class="cash-section">
-                    <label class="cash-label">Amount Received</label>
-                    <input type="number" id="amountReceived" class="cash-input" placeholder="0.00" step="0.01">
-                    <div class="change-row">
-                        <span>Change:</span>
-                        <span id="changeAmount" class="change-val">Rs. 0.00</span>
+                <!-- CART BOX -->
+                <div class="cart-box">
+                    <div class="cart-box-header">
+                        <span>🛒 <span data-i18n="pos_cart_items">Cart Items</span> &nbsp;<span class="cart-count" id="cartCount">0 items</span></span>
+                        <button class="btn-clear-cart" id="btnClearCart">🗑 <span data-i18n="pos_clear_cart">Clear</span></button>
+                    </div>
+                    <div class="cart-table-head">
+                        <span class="col-name" data-i18n="pos_product">Product</span>
+                        <span class="col-qty" data-i18n="pos_qty">Qty</span>
+                        <span class="col-price" data-i18n="pos_unit_price">Unit Price</span>
+                        <span class="col-total" data-i18n="pos_total">Total</span>
+                        <span class="col-action"></span>
+                    </div>
+                    <div class="cart-table-body" id="cartItems">
+                        <div class="cart-empty">
+                            <div style="font-size:48px;">🛒</div>
+                            <p data-i18n="pos_cart_empty">Cart is empty</p>
+                            <small data-i18n="pos_cart_empty_msg">Search or scan a product to add it</small>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- ACTION BUTTONS -->
-            <div class="right-section action-section">
-                <button class="btn-complete" id="btnCompleteSale">✅ Complete Sale</button>
-                <div class="btn-row-2">
-                    <button class="btn-hold" id="btnHold">⏸ Hold</button>
-                    <button class="btn-cancel" id="btnCancel">✕ Cancel</button>
+                <!-- TOTALS BAR -->
+                <div class="totals-bar">
+                    <div class="total-item">
+                        <span class="total-lbl" data-i18n="pos_subtotal">Subtotal:</span>
+                        <span class="total-val" id="subtotal">Rs. 0.00</span>
+                    </div>
+                    <div class="total-item discount-item">
+                        <span class="total-lbl" data-i18n="pos_discount">Discount:</span>
+                        <input type="number" id="discountPercent" class="discount-input" value="0" min="0" max="100" step="1">
+                        <span class="total-lbl">%</span>
+                        <span class="total-val text-danger" id="discountAmount">- Rs. 0.00</span>
+                    </div>
+                    <div class="total-item total-final">
+                        <span class="total-lbl" data-i18n="pos_total">Total:</span>
+                        <span class="total-val" id="totalAmount">Rs. 0.00</span>
+                    </div>
                 </div>
-                <button class="btn-return" id="btnReturn">↩ Return</button>
-            </div>
 
-        </div><!-- /pos-right -->
+            </div><!-- /pos-left -->
 
+
+            <!-- ═══════ RIGHT SECTION ═══════ -->
+            <div class="pos-right">
+
+                <!-- CUSTOMER -->
+                <div class="right-section customer-section">
+                    <div class="right-section-title">
+                        <span>👤 <span data-i18n="pos_customer">Customer</span></span>
+                        <button class="btn-change" id="btnSelectCustomer" data-i18n="pos_change_customer">Change</button>
+                    </div>
+                    <div class="customer-info" id="customerDisplay">
+                        <div class="cust-name" data-i18n="pos_walkin">Walk-in Customer</div>
+                        <div class="cust-detail">—</div>
+                    </div>
+                </div>
+
+                <!-- CURRENCY CONVERTER -->
+                <div class="right-section currency-section">
+                    <div class="right-section-title" data-i18n="pos_currency_converter">💱 Currency Converter</div>
+                    <div class="currency-total-row">
+                        <span class="currency-lbl" data-i18n="pos_pos_total">POS Total:</span>
+                        <span class="currency-pos-total" id="currPosTotal">Rs. 0.00</span>
+                    </div>
+                    <div class="currency-row">
+                        <select id="currFrom" class="curr-select">
+                            <option value="LKR" data-symbol="Rs.">Rs. LKR</option>
+                            <option value="USD" data-symbol="$">$ USD</option>
+                            <option value="EUR" data-symbol="€">€ EUR</option>
+                            <option value="GBP" data-symbol="£">£ GBP</option>
+                            <option value="INR" data-symbol="₹">₹ INR</option>
+                            <option value="JPY" data-symbol="¥">¥ JPY</option>
+                            <option value="AED" data-symbol="AED">AED</option>
+                        </select>
+                        <span class="curr-arrow">→</span>
+                        <select id="currTo" class="curr-select">
+                            <option value="USD" data-symbol="$">$ USD</option>
+                            <option value="LKR" data-symbol="Rs.">IQ Dinar</option>
+                            <option value="EUR" data-symbol="€">€ EUR</option>
+                            <option value="GBP" data-symbol="£">£ GBP</option>
+                        </select>
+                    </div>
+                    <div class="currency-input-row">
+                        <input type="number" id="currAmount" class="curr-amount-input" placeholder="0.00" step="0.01">
+                        <button class="curr-convert-btn" id="btnConvert" data-i18n="pos_convert">Convert</button>
+                    </div>
+                    <div class="currency-result" id="currResult">—</div>
+                    <div class="curr-rate-row" id="currRateRow"></div>
+                </div>
+
+                <!-- PAYMENT METHOD -->
+                <div class="right-section payment-section">
+                    <div class="right-section-title" data-i18n="pos_payment_method">💳 Payment Method</div>
+                    <div class="payment-btns">
+                        <button class="pay-btn active" data-method="CASH" data-i18n="pos_cash">💵 Cash</button>
+                        <button class="pay-btn" data-method="CARD" data-i18n="pos_card">💳 Card</button>
+                        <button class="pay-btn" data-method="TRANSFER" data-i18n="pos_transfer">🏦 Transfer</button>
+                    </div>
+                    <div id="cashSection" class="cash-section">
+                        <label class="cash-label" data-i18n="pos_amount_received">Amount Received</label>
+                        <input type="number" id="amountReceived" class="cash-input" placeholder="0.00" step="0.01">
+                        <div class="change-row">
+                            <span data-i18n="pos_change">Change:</span>
+                            <span id="changeAmount" class="change-val">Rs. 0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="right-section action-section">
+                    <button class="btn-complete" id="btnCompleteSale">
+                        ✅ <span data-i18n="pos_complete_sale">Complete Sale</span>
+                    </button>
+                    <div class="btn-row-2">
+                        <button class="btn-hold" id="btnHold">
+                            ⏸ <span data-i18n="pos_hold">Hold</span>
+                        </button>
+                        <button class="btn-cancel" id="btnCancel">
+                            ✕ <span data-i18n="cancel">Cancel</span>
+                        </button>
+                    </div>
+                    <button class="btn-return" id="btnReturn">
+                        ↩ <span data-i18n="pos_return">Return</span>
+                    </button>
+                </div>
+
+            </div><!-- /pos-right -->
+
+        </div>
     </div>
-</div>
 
 
-<!-- ═══════ RECEIPT MODAL ═══════ -->
-<div class="modal fade" id="receiptModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">✅ Sale Complete!</h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body" id="receiptContent"></div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
-                <button class="btn btn-success" data-dismiss="modal" id="btnNewSale">➕ New Sale</button>
+    <!-- ═══════ RECEIPT MODAL ═══════ -->
+    <div class="modal fade" id="receiptModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" data-i18n="msg_sale_complete">✅ Sale Complete!</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body" id="receiptContent"></div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+                    <button class="btn btn-success" data-dismiss="modal" id="btnNewSale">
+                        ➕ <span data-i18n="pos_complete_sale">New Sale</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ═══════ CUSTOMER MODAL ═══════ -->
-<div class="modal fade" id="customerModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">👤 Select Customer</h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control mb-3" id="customerSearch" placeholder="Search by name or phone...">
-                <div id="customerList" style="max-height:350px;overflow-y:auto;"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="btnWalkin" data-dismiss="modal">Walk-in Customer</button>
+    <!-- ═══════ CUSTOMER MODAL ═══════ -->
+    <div class="modal fade" id="customerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">👤 <span data-i18n="pos_customer">Select Customer</span></h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control mb-3" id="customerSearch"
+                           data-i18n="pos_search_placeholder" placeholder="Search by name or phone...">
+                    <div id="customerList" style="max-height:350px;overflow-y:auto;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="btnWalkin" data-dismiss="modal" data-i18n="pos_walkin">
+                        Walk-in Customer
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ═══════ RETURN MODAL ═══════ -->
-<div class="modal fade" id="returnModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title">↩ Process Return</h5>
-                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Order Number</label>
-                    <input type="text" class="form-control" id="returnOrderNumber" placeholder="e.g. ORD0000001">
+    <!-- ═══════ RETURN MODAL ═══════ -->
+    <div class="modal fade" id="returnModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">↩ <span data-i18n="pos_return">Process Return</span></h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                 </div>
-                <div class="form-group">
-                    <label>Reason</label>
-                    <select class="form-control" id="returnReason">
-                        <option value="">Select reason</option>
-                        <option value="DEFECTIVE">Defective Item</option>
-                        <option value="WRONG_ITEM">Wrong Item</option>
-                        <option value="CUSTOMER_CHANGE">Customer Changed Mind</option>
-                        <option value="OTHER">Other</option>
-                    </select>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label data-i18n="dashboard_order_id">Order Number</label>
+                        <input type="text" class="form-control" id="returnOrderNumber" placeholder="e.g. ORD0000001">
+                    </div>
+                    <div class="form-group">
+                        <label>Reason</label>
+                        <select class="form-control" id="returnReason">
+                            <option value="">Select reason</option>
+                            <option value="DEFECTIVE">Defective Item</option>
+                            <option value="WRONG_ITEM">Wrong Item</option>
+                            <option value="CUSTOMER_CHANGE">Customer Changed Mind</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="items_notes">Notes</label>
+                        <textarea class="form-control" id="returnNotes" rows="2"
+                                  data-i18n="items_notes_placeholder" placeholder="Optional..."></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Notes</label>
-                    <textarea class="form-control" id="returnNotes" rows="2" placeholder="Optional..."></textarea>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                    <button class="btn btn-warning" id="btnProcessReturn" data-i18n="pos_return">Process Return</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-warning" id="btnProcessReturn">Process Return</button>
             </div>
         </div>
     </div>
-</div>
 
-<script src="js/jquery-3.4.1.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/pos-checkout-controller.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Language Support -->
+    <script src="js/languages.js"></script>
+    <!-- Global Navbar JS -->
+    <script src="js/navbar-global.js"></script>
+    <script src="js/pos-checkout-controller.js"></script>
+
 </body>
 </html>
