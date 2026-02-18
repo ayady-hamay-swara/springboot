@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
-    
+    <!-- Global Navbar CSS -->
+    <link rel="stylesheet" href="css/navbar-global.css">
     <!-- Custom CSS -->
     <style>
         body {
@@ -52,42 +53,176 @@
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="index.html">🏪 POS System</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL NAVBAR
+         ════════════════════════════════════════════════════════════════════ -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
+
+        <!-- Brand -->
+        <a class="navbar-brand font-weight-bold" href="index.html">
+            🏪 <span data-i18n="brand_name">POS System</span>
+        </a>
+
+        <!-- LEFT SIDE: Settings & Calculator Buttons -->
+        <div class="navbar-left-actions">
+            <button class="nav-icon-btn" id="btnGlobalSettings" title="Settings">⚙️</button>
+            <button class="nav-icon-btn" id="btnGlobalCalc" title="Calculator">🧮</button>
+        </div>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+
+        <!-- CENTER: Navigation Links -->
+        <div class="collapse navbar-collapse" id="globalNavbar">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="index.html" data-i18n="nav_home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-customers.html">Customers</a>
+                    <a class="nav-link" href="manage-customers.html" data-i18n="nav_customers">Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-items.html">Items</a>
+                    <a class="nav-link" href="manage-items.html" data-i18n="nav_items">Items</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="manage-categories.html">Categories <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="manage-categories.html" data-i18n="nav_categories">Categories</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-employees.html">Employees</a>
+                    <a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout</a>
+                    <a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 POS</a>
                 </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="search-orders.html">Search orders</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="search-orders.html" data-i18n="nav_search">Orders</a>
+                </li>
+            </ul>
+
+            <!-- RIGHT SIDE: Language Switcher & User Info -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        🌐 <span id="currentLangLabel">English</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                        <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">🇬🇧 English</a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">🟥🟩⚪ کوردی</a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">🇸🇦 العربية</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link text-warning">
+                        👤 <strong id="navbarUsername">Admin</strong>
+                    </span>
                 </li>
             </ul>
         </div>
+
     </nav>
+
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL SETTINGS POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalSettingsPanel">
+        <div class="popup-header">
+            <span>⚙️ <span data-i18n="settings_title">Settings</span></span>
+            <button class="popup-close" id="settingsCloseBtn">✕</button>
+        </div>
+        <div class="settings-body">
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_store">Store Name</div>
+                <input type="text" id="globalStoreName" class="settings-input" placeholder="My Store">
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_currency">Default Currency</div>
+                <select id="globalCurrency" class="settings-input">
+                    <option value="$">$ — US Dollar</option>
+                    <option value="€">€ — Euro</option>
+                    <option value="£">£ — British Pound</option>
+                    <option value="AED">AED — UAE Dirham</option>
+                    <option value="iq">IQ — Iraqi Dinar</option>
+                </select>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_tax">Tax Rate (%)</div>
+                <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_auto_print">Auto-print Receipt</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalAutoPrint">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">Off</span>
+                </label>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_sound">Sound on Add to Cart</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalSound" checked>
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">On</span>
+                </label>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_cashier_name">Your Name</div>
+                <input type="text" id="globalCashierName" class="settings-input" placeholder="Admin">
+            </div>
+            <button class="settings-save-btn" id="btnGlobalSaveSettings">
+                💾 <span data-i18n="settings_save">Save Settings</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL CALCULATOR POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalCalcPanel">
+        <div class="popup-header">
+            <span>🧮 <span data-i18n="calc_title">Calculator</span></span>
+            <button class="popup-close" id="calcCloseBtn">✕</button>
+        </div>
+        <div class="calc-wrap">
+            <div class="calc-display">
+                <div class="calc-expr" id="globalCalcExpr">&nbsp;</div>
+                <div class="calc-result" id="globalCalcResult">0</div>
+            </div>
+            <div class="calc-grid">
+                <button class="cb cb-fn" data-action="clear">AC</button>
+                <button class="cb cb-fn" data-action="sign">+/−</button>
+                <button class="cb cb-fn" data-action="percent">%</button>
+                <button class="cb cb-op" data-op="÷">÷</button>
+                <button class="cb" data-num="7">7</button>
+                <button class="cb" data-num="8">8</button>
+                <button class="cb" data-num="9">9</button>
+                <button class="cb cb-op" data-op="×">×</button>
+                <button class="cb" data-num="4">4</button>
+                <button class="cb" data-num="5">5</button>
+                <button class="cb" data-num="6">6</button>
+                <button class="cb cb-op" data-op="−">−</button>
+                <button class="cb" data-num="1">1</button>
+                <button class="cb" data-num="2">2</button>
+                <button class="cb" data-num="3">3</button>
+                <button class="cb cb-op" data-op="+">+</button>
+                <button class="cb cb-zero" data-num="0">0</button>
+                <button class="cb" data-num=".">.</button>
+                <button class="cb cb-eq" data-action="equals">=</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backdrop for popups -->
+    <div class="global-popup-backdrop" id="globalBackdrop"></div>
+
 
     <!-- Main Content -->
     <div class="container mt-4">
-        <h2 class="page-title">📁 Category Management</h2>
+        <h2 class="page-title">📁 <span data-i18n="categories_title">Category Management</span></h2>
         <hr>
 
         <!-- Category Form -->
@@ -95,31 +230,31 @@
             <div class="col-md-12">
                 <div class="card category-card">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Add/Edit Category</h5>
+                        <h5 class="mb-0" data-i18n="categories_title">Add/Edit Category</h5>
                     </div>
                     <div class="card-body">
                         <form id="categoryForm">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="txtCategoryName">Category Name</label>
-                                        <input type="text" class="form-control" id="txtCategoryName" 
-                                               placeholder="e.g., Electronics" required>
+                                        <label for="txtCategoryName" data-i18n="categories_name">Category Name</label>
+                                        <input type="text" class="form-control" id="txtCategoryName"
+                                               data-i18n="categories_name" placeholder="e.g., Electronics" required>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label for="txtDescription">Description</label>
-                                        <input type="text" class="form-control" id="txtDescription" 
-                                               placeholder="Optional description">
+                                        <label for="txtDescription" data-i18n="categories_description">Description</label>
+                                        <input type="text" class="form-control" id="txtDescription"
+                                               data-i18n="categories_description" placeholder="Optional description">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="txtStatus">Status</label>
+                                        <label for="txtStatus" data-i18n="items_status">Status</label>
                                         <select class="form-control" id="txtStatus">
-                                            <option value="true">Active</option>
-                                            <option value="false">Inactive</option>
+                                            <option value="true" data-i18n="items_active">Active</option>
+                                            <option value="false" data-i18n="items_inactive">Inactive</option>
                                         </select>
                                     </div>
                                 </div>
@@ -127,16 +262,16 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <button type="button" class="btn btn-success" id="btnSave">
-                                        💾 Save Category
+                                        💾 <span data-i18n="categories_save">Save Category</span>
                                     </button>
                                     <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;">
-                                        ✏️ Update Category
+                                        ✏️ <span data-i18n="categories_update">Update Category</span>
                                     </button>
                                     <button type="button" class="btn btn-danger" id="btnDelete" style="display:none;">
-                                        🗑️ Delete Category
+                                        🗑️ <span data-i18n="categories_delete">Delete Category</span>
                                     </button>
                                     <button type="button" class="btn btn-warning" id="btnClear">
-                                        🔄 Clear Form
+                                        🔄 <span data-i18n="clear">Clear Form</span>
                                     </button>
                                 </div>
                             </div>
@@ -151,7 +286,7 @@
             <div class="col-md-12">
                 <div class="card category-card">
                     <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">📋 All Categories</h5>
+                        <h5 class="mb-0">📋 <span data-i18n="categories_title">All Categories</span></h5>
                     </div>
                     <div class="card-body p-0">
                         <div id="categoriesList">
@@ -172,6 +307,10 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <!-- Language Support -->
+    <script src="js/languages.js"></script>
+    <!-- Global Navbar JS -->
+    <script src="js/navbar-global.js"></script>
 
     <!-- Controller -->
     <script>
@@ -195,7 +334,7 @@
                     displayCategories(categories);
                 },
                 error: function() {
-                    showNotification("Error loading categories", "error");
+                    showNotification(t('msg_error'), "error");
                 }
             });
         }
@@ -205,13 +344,13 @@
             list.empty();
 
             if (categories.length === 0) {
-                list.html('<div class="text-center py-4">No categories yet</div>');
+                list.html('<div class="text-center py-4">' + t('pos_cart_empty') + '</div>');
                 return;
             }
 
             categories.forEach(cat => {
                 const statusClass = cat.active ? 'badge-active' : 'badge-inactive';
-                const statusText = cat.active ? 'Active' : 'Inactive';
+                const statusText = cat.active ? t('items_active') : t('items_inactive');
 
                 const item = $(`
                     <div class="category-item">
@@ -220,14 +359,14 @@
                                 <strong>${cat.name}</strong>
                             </div>
                             <div class="col-md-5">
-                                ${cat.description || 'No description'}
+                                ${cat.description || '—'}
                             </div>
                             <div class="col-md-2">
                                 <span class="${statusClass}">${statusText}</span>
                             </div>
                             <div class="col-md-2">
                                 <button class="btn btn-sm btn-primary" onclick="editCategory(${cat.id})">
-                                    ✏️ Edit
+                                    ✏️ ${t('edit')}
                                 </button>
                             </div>
                         </div>
@@ -245,7 +384,7 @@
             };
 
             if (!data.name) {
-                showNotification("Category name is required", "warning");
+                showNotification(t('categories_name') + ' is required', "warning");
                 return;
             }
 
@@ -255,12 +394,12 @@
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function() {
-                    showNotification("Category saved!", "success");
+                    showNotification(t('categories_title') + ' ' + t('msg_saved'), "success");
                     clearForm();
                     loadCategories();
                 },
                 error: function() {
-                    showNotification("Error saving category", "error");
+                    showNotification(t('msg_error'), "error");
                 }
             });
         }
@@ -295,29 +434,29 @@
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function() {
-                    showNotification("Category updated!", "success");
+                    showNotification(t('categories_title') + ' ' + t('msg_updated'), "success");
                     clearForm();
                     loadCategories();
                 },
                 error: function() {
-                    showNotification("Error updating category", "error");
+                    showNotification(t('msg_error'), "error");
                 }
             });
         }
 
         function deleteCategory() {
-            if (!confirm("Delete this category?")) return;
+            if (!confirm(t('msg_confirm_delete') + '?')) return;
 
             $.ajax({
                 url: `${API_URL}/${currentCategoryId}`,
                 method: "DELETE",
                 success: function() {
-                    showNotification("Category deleted!", "success");
+                    showNotification(t('categories_title') + ' ' + t('msg_deleted'), "success");
                     clearForm();
                     loadCategories();
                 },
                 error: function() {
-                    showNotification("Cannot delete - category may be in use", "error");
+                    showNotification(t('msg_error'), "error");
                 }
             });
         }
@@ -346,6 +485,9 @@
             $('body').append(alert);
             setTimeout(() => alert.alert('close'), 3000);
         }
+
+        // Re-render dynamic content when language changes
+        window.addEventListener('languageChanged', () => loadCategories());
     </script>
 
 </body>

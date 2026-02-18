@@ -12,39 +12,198 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/dashboard.css">
+    <!-- Global Navbar CSS -->
+    <link rel="stylesheet" href="css/navbar-global.css">
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="index.html">🏪 POS System</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL NAVBAR
+         ════════════════════════════════════════════════════════════════════ -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
+        
+        <!-- Brand -->
+        <a class="navbar-brand font-weight-bold" href="index.html">
+            🏪 <span data-i18n="brand_name">POS System</span>
+        </a>
+
+        <!-- LEFT SIDE: Settings & Calculator Buttons -->
+        <div class="navbar-left-actions">
+            <button class="nav-icon-btn" id="btnGlobalSettings" title="Settings">
+                ⚙️
+            </button>
+            <button class="nav-icon-btn" id="btnGlobalCalc" title="Calculator">
+                🧮
+            </button>
+        </div>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+
+        <!-- CENTER: Navigation Links -->
+        <div class="collapse navbar-collapse" id="globalNavbar">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.html" data-i18n="nav_home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-customers.html">Customers</a>
+                    <a class="nav-link" href="manage-customers.html" data-i18n="nav_customers">Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-items.html">Items</a>
+                    <a class="nav-link" href="manage-items.html" data-i18n="nav_items">Items</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-employees.html">Employees</a>
+                    <a class="nav-link" href="manage-categories.html" data-i18n="nav_categories">Categories</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="pos-checkout.html">🛒 POS Checkout </a>
-                </li>
-             
                 <li class="nav-item">
-                    <a class="nav-link" href="search-orders.html">Search</a>
+                    <a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 POS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search-orders.html" data-i18n="nav_search">Orders</a>
+                </li>
+            </ul>
+
+            <!-- RIGHT SIDE: Language Switcher & User Info -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Language Switcher -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDropdown" 
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        🌐 <span id="currentLangLabel">English</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                        <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">
+                            🇬🇧 English
+                        </a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">
+                            🟥🟩⚪ کوردی
+                        </a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">
+                            🇸🇦 العربية
+                        </a>
+                    </div>
+                </li>
+
+                <!-- User Info -->
+                <li class="nav-item">
+                    <span class="nav-link text-warning">
+                        👤 <strong id="navbarUsername">Admin</strong>
+                    </span>
                 </li>
             </ul>
         </div>
+
     </nav>
+
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL SETTINGS POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalSettingsPanel">
+        <div class="popup-header">
+            <span>⚙️ <span data-i18n="settings_title">Settings</span></span>
+            <button class="popup-close" id="settingsCloseBtn">✕</button>
+        </div>
+        <div class="settings-body">
+
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_store">Store Name</div>
+                <input type="text" id="globalStoreName" class="settings-input" placeholder="My Store">
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_currency">Default Currency</div>
+                <select id="globalCurrency" class="settings-input">
+                    <option value="$">$ — US Dollar</option>
+                    <option value="€">€ — Euro</option>
+                    <option value="£">£ — British Pound</option>
+                    <option value="AED">AED — UAE Dirham</option>
+                    <option value="iq">IQ — Iraqi Dinar</option>
+                </select>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_tax">Tax Rate (%)</div>
+                <input type="number" id="globalTaxRate" class="settings-input" 
+                       placeholder="0" min="0" max="100" step="0.1">
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_auto_print">Auto-print Receipt</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalAutoPrint">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">Off</span>
+                </label>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_sound">Sound on Add to Cart</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalSound" checked>
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">On</span>
+                </label>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_cashier_name">Your Name</div>
+                <input type="text" id="globalCashierName" class="settings-input" placeholder="Admin">
+            </div>
+
+            <button class="settings-save-btn" id="btnGlobalSaveSettings">
+                💾 <span data-i18n="settings_save">Save Settings</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL CALCULATOR POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalCalcPanel">
+        <div class="popup-header">
+            <span>🧮 <span data-i18n="calc_title">Calculator</span></span>
+            <button class="popup-close" id="calcCloseBtn">✕</button>
+        </div>
+        <div class="calc-wrap">
+            <div class="calc-display">
+                <div class="calc-expr" id="globalCalcExpr">&nbsp;</div>
+                <div class="calc-result" id="globalCalcResult">0</div>
+            </div>
+            <div class="calc-grid">
+                <button class="cb cb-fn" data-action="clear">AC</button>
+                <button class="cb cb-fn" data-action="sign">+/−</button>
+                <button class="cb cb-fn" data-action="percent">%</button>
+                <button class="cb cb-op" data-op="÷">÷</button>
+                <button class="cb" data-num="7">7</button>
+                <button class="cb" data-num="8">8</button>
+                <button class="cb" data-num="9">9</button>
+                <button class="cb cb-op" data-op="×">×</button>
+                <button class="cb" data-num="4">4</button>
+                <button class="cb" data-num="5">5</button>
+                <button class="cb" data-num="6">6</button>
+                <button class="cb cb-op" data-op="−">−</button>
+                <button class="cb" data-num="1">1</button>
+                <button class="cb" data-num="2">2</button>
+                <button class="cb" data-num="3">3</button>
+                <button class="cb cb-op" data-op="+">+</button>
+                <button class="cb cb-zero" data-num="0">0</button>
+                <button class="cb" data-num=".">.</button>
+                <button class="cb cb-eq" data-action="equals">=</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backdrop for popups -->
+    <div class="global-popup-backdrop" id="globalBackdrop"></div>
+
 
     <!-- Main Dashboard Container -->
     <div class="container-fluid dashboard-container">
@@ -54,12 +213,12 @@
             <div class="col-12">
                 <div class="welcome-banner">
                     <div class="welcome-content">
-                        <h1 class="welcome-title">Welcome Back! 👋</h1>
-                        <p class="welcome-subtitle">Here's what's happening with your business today</p>
+                        <h1 class="welcome-title" data-i18n="dashboard_welcome">Welcome Back! 👋</h1>
+                        <p class="welcome-subtitle" data-i18n="dashboard_subtitle">Here's what's happening with your business today</p>
                     </div>
                     <div class="welcome-actions">
                         <button class="btn btn-light btn-lg" onclick="location.href='pos-checkout.html'">
-                            🛒 Start Selling
+                            🛒 <span data-i18n="dashboard_start_selling">Start Selling</span>
                         </button>
                     </div>
                 </div>
@@ -72,7 +231,7 @@
                 <div class="metric-card metric-sales">
                     <div class="metric-icon">💰</div>
                     <div class="metric-details">
-                        <div class="metric-label">Today's Sales</div>
+                        <div class="metric-label" data-i18n="pos_today_sales">Today's Sales</div>
                         <div class="metric-value" id="todaySales">Rs. 0.00</div>
                         <div class="metric-change positive" id="salesChange">
                             <span class="arrow">↑</span> 12% from yesterday
@@ -85,7 +244,7 @@
                 <div class="metric-card metric-orders">
                     <div class="metric-icon">📦</div>
                     <div class="metric-details">
-                        <div class="metric-label">Orders Today</div>
+                        <div class="metric-label" data-i18n="dashboard_orders_today">Orders Today</div>
                         <div class="metric-value" id="todayOrders">0</div>
                         <div class="metric-change positive" id="ordersChange">
                             <span class="arrow">↑</span> 8% from yesterday
@@ -98,7 +257,7 @@
                 <div class="metric-card metric-customers">
                     <div class="metric-icon">👥</div>
                     <div class="metric-details">
-                        <div class="metric-label">Total Customers</div>
+                        <div class="metric-label" data-i18n="customers_total">Total Customers</div>
                         <div class="metric-value" id="totalCustomers">0</div>
                         <div class="metric-change neutral" id="customersChange">
                             <span class="arrow">→</span> 5 new this week
@@ -111,7 +270,7 @@
                 <div class="metric-card metric-revenue">
                     <div class="metric-icon">📈</div>
                     <div class="metric-details">
-                        <div class="metric-label">Monthly Revenue</div>
+                        <div class="metric-label" data-i18n="dashboard_monthly_revenue">Monthly Revenue</div>
                         <div class="metric-value" id="monthlyRevenue">Rs. 0.00</div>
                         <div class="metric-change positive" id="revenueChange">
                             <span class="arrow">↑</span> 15% from last month
@@ -127,12 +286,12 @@
             <div class="col-lg-8 mb-4">
                 <div class="card dashboard-card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">📊 Sales Overview - Last 7 Days</h5>
+                        <h5 class="card-title mb-0" data-i18n="dashboard_sales_overview">📊 Sales Overview - Last 7 Days</h5>
                         <div class="card-actions">
                             <select class="form-control form-control-sm" id="chartPeriod">
-                                <option value="7">Last 7 Days</option>
-                                <option value="30">Last 30 Days</option>
-                                <option value="90">Last 3 Months</option>
+                                <option value="7" data-i18n="dashboard_last_7">Last 7 Days</option>
+                                <option value="30" data-i18n="dashboard_last_30">Last 30 Days</option>
+                                <option value="90" data-i18n="dashboard_last_90">Last 3 Months</option>
                             </select>
                         </div>
                     </div>
@@ -146,42 +305,42 @@
             <div class="col-lg-4 mb-4">
                 <div class="card dashboard-card h-100">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">⚡ Quick Stats</h5>
+                        <h5 class="card-title mb-0" data-i18n="dashboard_quick_stats">⚡ Quick Stats</h5>
                     </div>
                     <div class="card-body">
                         <div class="quick-stat-item">
                             <div class="stat-icon">📦</div>
                             <div class="stat-info">
                                 <div class="stat-number" id="totalItems">0</div>
-                                <div class="stat-text">Total Products</div>
+                                <div class="stat-text" data-i18n="items_total">Total Products</div>
                             </div>
                         </div>
                         <div class="quick-stat-item">
                             <div class="stat-icon">⚠️</div>
                             <div class="stat-info">
                                 <div class="stat-number text-warning" id="lowStockItems">0</div>
-                                <div class="stat-text">Low Stock Items</div>
+                                <div class="stat-text" data-i18n="items_low_stock">Low Stock Items</div>
                             </div>
                         </div>
                         <div class="quick-stat-item">
                             <div class="stat-icon">❌</div>
                             <div class="stat-info">
                                 <div class="stat-number text-danger" id="outOfStockItems">0</div>
-                                <div class="stat-text">Out of Stock</div>
+                                <div class="stat-text" data-i18n="items_out_stock">Out of Stock</div>
                             </div>
                         </div>
                         <div class="quick-stat-item">
                             <div class="stat-icon">👤</div>
                             <div class="stat-info">
                                 <div class="stat-number" id="activeEmployees">0</div>
-                                <div class="stat-text">Active Staff</div>
+                                <div class="stat-text" data-i18n="employees_total">Active Staff</div>
                             </div>
                         </div>
                         <div class="quick-stat-item">
                             <div class="stat-icon">💎</div>
                             <div class="stat-info">
                                 <div class="stat-number" id="inventoryValue">Rs. 0</div>
-                                <div class="stat-text">Inventory Value</div>
+                                <div class="stat-text" data-i18n="items_total_value">Inventory Value</div>
                             </div>
                         </div>
                     </div>
@@ -195,25 +354,24 @@
             <div class="col-lg-6 mb-4">
                 <div class="card dashboard-card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">🛒 Recent Orders</h5>
-                        <a href="search-orders.html" class="btn btn-sm btn-outline-primary">View All</a>
+                        <h5 class="card-title mb-0" data-i18n="dashboard_recent_orders">🛒 Recent Orders</h5>
+                        <a href="search-orders.html" class="btn btn-sm btn-outline-primary" data-i18n="dashboard_view_all">View All</a>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover mb-0" id="recentOrdersTable">
                                 <thead>
                                     <tr>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Time</th>
+                                        <th data-i18n="dashboard_order_id">Order ID</th>
+                                        <th data-i18n="pos_customer">Customer</th>
+                                        <th data-i18n="dashboard_amount">Amount</th>
+                                        <th data-i18n="items_status">Status</th>
+                                        <th data-i18n="dashboard_time">Time</th>
                                     </tr>
                                 </thead>
                                 <tbody id="recentOrdersBody">
-                                    <!-- Orders will be loaded here -->
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted py-4">
+                                        <td colspan="5" class="text-center text-muted py-4" id="loadingOrders" data-i18n="loading">
                                             Loading recent orders...
                                         </td>
                                     </tr>
@@ -228,25 +386,24 @@
             <div class="col-lg-6 mb-4">
                 <div class="card dashboard-card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">⚠️ Low Stock Alerts</h5>
-                        <a href="manage-items.html" class="btn btn-sm btn-outline-warning">Manage Stock</a>
+                        <h5 class="card-title mb-0" data-i18n="dashboard_low_stock_alerts">⚠️ Low Stock Alerts</h5>
+                        <a href="manage-items.html" class="btn btn-sm btn-outline-warning" data-i18n="dashboard_manage_stock">Manage Stock</a>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover mb-0" id="lowStockTable">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Category</th>
-                                        <th>Stock</th>
-                                        <th>Min Level</th>
-                                        <th>Action</th>
+                                        <th data-i18n="items_name">Product</th>
+                                        <th data-i18n="items_category">Category</th>
+                                        <th data-i18n="items_stock">Stock</th>
+                                        <th data-i18n="items_min_stock">Min Level</th>
+                                        <th data-i18n="edit">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="lowStockBody">
-                                    <!-- Low stock items will be loaded here -->
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted py-4">
+                                        <td colspan="5" class="text-center text-muted py-4" data-i18n="loading">
                                             Loading stock alerts...
                                         </td>
                                     </tr>
@@ -263,56 +420,56 @@
             <div class="col-12">
                 <div class="card dashboard-card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">🎯 Quick Actions</h5>
+                        <h5 class="card-title mb-0" data-i18n="dashboard_quick_actions">🎯 Quick Actions</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" onclick="location.href='pos-checkout.html'">
                                     <div class="action-icon">🛒</div>
-                                    <div class="action-text">New Sale</div>
+                                    <div class="action-text" data-i18n="dashboard_new_sale">New Sale</div>
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" onclick="location.href='manage-customers.html'">
                                     <div class="action-icon">👤</div>
-                                    <div class="action-text">Add Customer</div>
+                                    <div class="action-text" data-i18n="dashboard_add_customer">Add Customer</div>
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" onclick="location.href='manage-items.html'">
                                     <div class="action-icon">📦</div>
-                                    <div class="action-text">Add Product</div>
+                                    <div class="action-text" data-i18n="dashboard_add_product">Add Product</div>
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" onclick="location.href='search-orders.html'">
                                     <div class="action-icon">🔍</div>
-                                    <div class="action-text">Search Orders</div>
+                                    <div class="action-text" data-i18n="dashboard_search_orders">Search Orders</div>
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" onclick="location.href='manage-employees.html'">
                                     <div class="action-icon">👥</div>
-                                    <div class="action-text">Manage Staff</div>
+                                    <div class="action-text" data-i18n="dashboard_manage_staff">Manage Staff</div>
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" id="btnGenerateReport">
                                     <div class="action-icon">📊</div>
-                                    <div class="action-text">Generate Report</div>
+                                    <div class="action-text" data-i18n="dashboard_generate_report">Generate Report</div>
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" id="btnBackupData">
                                     <div class="action-icon">💾</div>
-                                    <div class="action-text">Backup Data</div>
+                                    <div class="action-text" data-i18n="dashboard_backup_data">Backup Data</div>
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-6 mb-3">
                                 <button class="quick-action-btn" id="btnSettings">
                                     <div class="action-icon">⚙️</div>
-                                    <div class="action-text">Settings</div>
+                                    <div class="action-text" data-i18n="settings_title">Settings</div>
                                 </button>
                             </div>
                         </div>
@@ -321,17 +478,16 @@
             </div>
         </div>
 
-        <!-- Top Products -->
+        <!-- Top Products & Customers -->
         <div class="row mt-4 mb-5">
             <div class="col-lg-6 mb-4">
                 <div class="card dashboard-card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">🏆 Top Selling Products</h5>
+                        <h5 class="card-title mb-0" data-i18n="dashboard_top_products">🏆 Top Selling Products</h5>
                     </div>
                     <div class="card-body">
                         <div class="top-products-list" id="topProductsList">
-                            <!-- Top products will be loaded here -->
-                            <div class="text-center text-muted py-4">
+                            <div class="text-center text-muted py-4" data-i18n="loading">
                                 Loading top products...
                             </div>
                         </div>
@@ -342,12 +498,11 @@
             <div class="col-lg-6 mb-4">
                 <div class="card dashboard-card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">⭐ Top Customers</h5>
+                        <h5 class="card-title mb-0" data-i18n="dashboard_top_customers">⭐ Top Customers</h5>
                     </div>
                     <div class="card-body">
                         <div class="top-customers-list" id="topCustomersList">
-                            <!-- Top customers will be loaded here -->
-                            <div class="text-center text-muted py-4">
+                            <div class="text-center text-muted py-4" data-i18n="loading">
                                 Loading top customers...
                             </div>
                         </div>
@@ -379,6 +534,10 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- Language Support -->
+    <script src="js/languages.js"></script>
+    <!-- Global Navbar JS -->
+    <script src="js/navbar-global.js"></script>
     <!-- Custom JS -->
     <script src="js/dashboard-controller.js"></script>
 

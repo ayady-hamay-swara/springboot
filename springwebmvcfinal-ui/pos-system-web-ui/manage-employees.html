@@ -8,31 +8,172 @@
     <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="css/manage-employees.css">
+    <!-- Global Navbar CSS -->
+    <link rel="stylesheet" href="css/navbar-global.css">
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="index.html">🏪 POS System</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL NAVBAR
+         ════════════════════════════════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
+
+        <a class="navbar-brand font-weight-bold" href="index.html">
+            🏪 <span data-i18n="brand_name">POS System</span>
+        </a>
+
+        <div class="navbar-left-actions">
+            <button class="nav-icon-btn" id="btnGlobalSettings" title="Settings">⚙️</button>
+            <button class="nav-icon-btn" id="btnGlobalCalc" title="Calculator">🧮</button>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="manage-customers.html">Customers</a></li>
-                <li class="nav-item"><a class="nav-link" href="manage-items.html">Items</a></li>
-                <li class="nav-item"><a class="nav-link" href="manage-categories.html">Categories</a></li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="manage-employees.html">Employees <span class="sr-only">(current)</span></a>
+
+        <div class="collapse navbar-collapse" id="globalNavbar">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html" data-i18n="nav_home">Home</a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="pos-checkout.html">🛒 POS Checkout</a></li>
-                <li class="nav-item"><a class="nav-link" href="search-orders.html">Search orders</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-customers.html" data-i18n="nav_customers">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-items.html" data-i18n="nav_items">Items</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-categories.html" data-i18n="nav_categories">Categories</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 POS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search-orders.html" data-i18n="nav_search">Orders</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        🌐 <span id="currentLangLabel">English</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                        <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">🇬🇧 English</a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">🟥🟩⚪ کوردی</a>
+                        <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">🇸🇦 العربية</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link text-warning">
+                        👤 <strong id="navbarUsername">Admin</strong>
+                    </span>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <!-- ACCESS DENIED OVERLAY (shown to cashiers) -->
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL SETTINGS POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalSettingsPanel">
+        <div class="popup-header">
+            <span>⚙️ <span data-i18n="settings_title">Settings</span></span>
+            <button class="popup-close" id="settingsCloseBtn">✕</button>
+        </div>
+        <div class="settings-body">
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_store">Store Name</div>
+                <input type="text" id="globalStoreName" class="settings-input" placeholder="My Store">
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_currency">Default Currency</div>
+                <select id="globalCurrency" class="settings-input">
+                    <option value="$">$ — US Dollar</option>
+                    <option value="€">€ — Euro</option>
+                    <option value="£">£ — British Pound</option>
+                    <option value="AED">AED — UAE Dirham</option>
+                    <option value="iq">IQ — Iraqi Dinar</option>
+                </select>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_tax">Tax Rate (%)</div>
+                <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_auto_print">Auto-print Receipt</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalAutoPrint">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">Off</span>
+                </label>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_sound">Sound on Add to Cart</div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="globalSound" checked>
+                    <span class="toggle-track"></span>
+                    <span class="toggle-text">On</span>
+                </label>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label" data-i18n="settings_cashier_name">Your Name</div>
+                <input type="text" id="globalCashierName" class="settings-input" placeholder="Admin">
+            </div>
+            <button class="settings-save-btn" id="btnGlobalSaveSettings">
+                💾 <span data-i18n="settings_save">Save Settings</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GLOBAL CALCULATOR POPUP
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="global-popup" id="globalCalcPanel">
+        <div class="popup-header">
+            <span>🧮 <span data-i18n="calc_title">Calculator</span></span>
+            <button class="popup-close" id="calcCloseBtn">✕</button>
+        </div>
+        <div class="calc-wrap">
+            <div class="calc-display">
+                <div class="calc-expr" id="globalCalcExpr">&nbsp;</div>
+                <div class="calc-result" id="globalCalcResult">0</div>
+            </div>
+            <div class="calc-grid">
+                <button class="cb cb-fn" data-action="clear">AC</button>
+                <button class="cb cb-fn" data-action="sign">+/−</button>
+                <button class="cb cb-fn" data-action="percent">%</button>
+                <button class="cb cb-op" data-op="÷">÷</button>
+                <button class="cb" data-num="7">7</button>
+                <button class="cb" data-num="8">8</button>
+                <button class="cb" data-num="9">9</button>
+                <button class="cb cb-op" data-op="×">×</button>
+                <button class="cb" data-num="4">4</button>
+                <button class="cb" data-num="5">5</button>
+                <button class="cb" data-num="6">6</button>
+                <button class="cb cb-op" data-op="−">−</button>
+                <button class="cb" data-num="1">1</button>
+                <button class="cb" data-num="2">2</button>
+                <button class="cb" data-num="3">3</button>
+                <button class="cb cb-op" data-op="+">+</button>
+                <button class="cb cb-zero" data-num="0">0</button>
+                <button class="cb" data-num=".">.</button>
+                <button class="cb cb-eq" data-action="equals">=</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backdrop for popups -->
+    <div class="global-popup-backdrop" id="globalBackdrop"></div>
+
+
+    <!-- ACCESS DENIED OVERLAY -->
     <div id="accessDeniedOverlay" style="display:none;">
         <div style="text-align:center; padding: 100px 20px;">
             <div style="font-size: 80px;">⛔</div>
@@ -42,26 +183,22 @@
                 <strong>Required Access Level:</strong> Owner, Manager, or Assistant Manager
             </div>
             <br><br>
-            <a href="pos-checkout.html" class="btn btn-primary btn-lg">Go to POS Checkout</a>
-            <a href="index.html" class="btn btn-secondary btn-lg ml-2">Go to Dashboard</a>
+            <a href="pos-checkout.html" class="btn btn-primary btn-lg" data-i18n="nav_pos">Go to POS Checkout</a>
+            <a href="index.html" class="btn btn-secondary btn-lg ml-2" data-i18n="nav_home">Go to Dashboard</a>
         </div>
     </div>
 
-    <!-- MAIN CONTENT (hidden until access check passes) -->
+    <!-- MAIN CONTENT -->
     <div id="mainContent" style="display:none;">
         <div class="container mt-4">
 
-            <!-- Page Title with Access Badge -->
+            <!-- Page Title -->
             <div class="row">
                 <div class="col-12 d-flex justify-content-between align-items-center">
-                    <h2 class="page-title">👥 Employee Management</h2>
+                    <h2 class="page-title">👥 <span data-i18n="employees_title">Employee Management</span></h2>
                     <div>
-                        <span class="badge badge-info p-2" id="currentUserBadge">
-                            👤 Loading...
-                        </span>
-                        <span class="badge badge-success p-2 ml-2" id="accessLevelBadge">
-                            🔓 Access Level: --
-                        </span>
+                        <span class="badge badge-info p-2" id="currentUserBadge">👤 Loading...</span>
+                        <span class="badge badge-success p-2 ml-2" id="accessLevelBadge">🔓 Access Level: --</span>
                     </div>
                 </div>
             </div>
@@ -70,44 +207,44 @@
             <!-- Statistics Cards -->
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left: 4px solid #2E75B6; background: linear-gradient(135deg,#fff 0%,#f0f7ff 100%); box-shadow: 0 4px 15px rgba(0,0,0,.1); border-radius: 12px;">
+                    <div class="card stat-card" style="border-left:4px solid #2E75B6;background:linear-gradient(135deg,#fff 0%,#f0f7ff 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
                         <div class="card-body d-flex align-items-center gap-3">
                             <div style="font-size:48px;">👥</div>
                             <div>
-                                <h6 class="text-muted mb-1">Total Employees</h6>
+                                <h6 class="text-muted mb-1" data-i18n="employees_total">Total Employees</h6>
                                 <h2 id="totalEmployees" class="mb-0">0</h2>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left: 4px solid #28a745; background: linear-gradient(135deg,#fff 0%,#e6f7e6 100%); box-shadow: 0 4px 15px rgba(0,0,0,.1); border-radius: 12px;">
+                    <div class="card stat-card" style="border-left:4px solid #28a745;background:linear-gradient(135deg,#fff 0%,#e6f7e6 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
                         <div class="card-body d-flex align-items-center gap-3">
                             <div style="font-size:48px;">✅</div>
                             <div>
-                                <h6 class="text-muted mb-1">Active Staff</h6>
+                                <h6 class="text-muted mb-1" data-i18n="items_active">Active Staff</h6>
                                 <h2 id="activeEmployees" class="mb-0">0</h2>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left: 4px solid #ffc107; background: linear-gradient(135deg,#fff 0%,#fff9e6 100%); box-shadow: 0 4px 15px rgba(0,0,0,.1); border-radius: 12px;">
+                    <div class="card stat-card" style="border-left:4px solid #ffc107;background:linear-gradient(135deg,#fff 0%,#fff9e6 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
                         <div class="card-body d-flex align-items-center gap-3">
                             <div style="font-size:48px;">💼</div>
                             <div>
-                                <h6 class="text-muted mb-1">Managers</h6>
+                                <h6 class="text-muted mb-1" data-i18n="employees_managers">Managers</h6>
                                 <h2 id="totalManagers" class="mb-0">0</h2>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left: 4px solid #dc3545; background: linear-gradient(135deg,#fff 0%,#fff0f0 100%); box-shadow: 0 4px 15px rgba(0,0,0,.1); border-radius: 12px;">
+                    <div class="card stat-card" style="border-left:4px solid #dc3545;background:linear-gradient(135deg,#fff 0%,#fff0f0 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
                         <div class="card-body d-flex align-items-center gap-3">
                             <div style="font-size:48px;">💰</div>
                             <div>
-                                <h6 class="text-muted mb-1">Monthly Payroll</h6>
+                                <h6 class="text-muted mb-1" data-i18n="employees_payroll">Monthly Payroll</h6>
                                 <h2 id="totalPayroll" class="mb-0" style="font-size:22px;">Rs. 0</h2>
                             </div>
                         </div>
@@ -118,18 +255,18 @@
             <!-- Employee Form Card -->
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <div class="card" style="border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.1); border:none;">
+                    <div class="card" style="border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);border:none;">
                         <div class="card-header bg-primary text-white" style="border-radius:12px 12px 0 0;">
-                            <h5 class="mb-0">📝 Employee Information</h5>
+                            <h5 class="mb-0">📝 <span data-i18n="employees_title">Employee Information</span></h5>
                         </div>
                         <div class="card-body">
                             <form id="employeeForm">
 
-                                <!-- ROW 1: ID, Name, Position, Status -->
+                                <!-- ROW 1: ID, Name, Position, Status, Salary -->
                                 <div class="row">
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="txtEmployeeId">Employee ID</label>
+                                            <label for="txtEmployeeId" data-i18n="employees_id">Employee ID</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="txtEmployeeId"
                                                        placeholder="E001" readonly>
@@ -143,39 +280,38 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="txtName">Full Name <span class="text-danger">*</span></label>
+                                            <label for="txtName" data-i18n="employees_name">Full Name <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="txtName"
-                                                   placeholder="Enter full name" required>
+                                                   data-i18n="employees_name" placeholder="Enter full name" required>
                                         </div>
                                     </div>
 
-                                    <!-- POSITION DROPDOWN (new!) -->
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="txtPosition">Position <span class="text-danger">*</span></label>
+                                            <label for="txtPosition" data-i18n="employees_position">Position <span class="text-danger">*</span></label>
                                             <select class="form-control" id="txtPosition" required>
-                                                <option value="">Select position</option>
-                                                <option value="OWNER">👑 Owner</option>
-                                                <option value="MANAGER">💼 Manager</option>
-                                                <option value="ASSISTANT_MANAGER">📋 Assistant Manager</option>
-                                                <option value="CASHIER">🧾 Cashier</option>
+                                                <option value="" data-i18n="employees_position">Select position</option>
+                                                <option value="OWNER" data-i18n="position_owner">👑 Owner</option>
+                                                <option value="MANAGER" data-i18n="position_manager">💼 Manager</option>
+                                                <option value="ASSISTANT_MANAGER" data-i18n="position_asst_manager">📋 Assistant Manager</option>
+                                                <option value="CASHIER" data-i18n="position_cashier">🧾 Cashier</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="txtStatus">Status</label>
+                                            <label for="txtStatus" data-i18n="items_status">Status</label>
                                             <select class="form-control" id="txtStatus">
-                                                <option value="true">Active</option>
-                                                <option value="false">Inactive</option>
+                                                <option value="true" data-i18n="items_active">Active</option>
+                                                <option value="false" data-i18n="items_inactive">Inactive</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="txtSalary">Salary (Rs.) <span class="text-muted">(Optional)</span></label>
+                                            <label for="txtSalary" data-i18n="employees_salary">Salary (Rs.) <span class="text-muted">(Optional)</span></label>
                                             <input type="number" class="form-control" id="txtSalary"
                                                    placeholder="0.00" step="0.01" min="0">
                                         </div>
@@ -186,29 +322,29 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="txtEmail">Email <span class="text-muted">(Optional)</span></label>
+                                            <label for="txtEmail" data-i18n="employees_email">Email <span class="text-muted">(Optional)</span></label>
                                             <input type="email" class="form-control" id="txtEmail"
-                                                   placeholder="employee@example.com">
+                                                   data-i18n="employees_email" placeholder="employee@example.com">
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="txtPhone">Phone <span class="text-muted">(Optional)</span></label>
+                                            <label for="txtPhone" data-i18n="employees_phone">Phone <span class="text-muted">(Optional)</span></label>
                                             <input type="text" class="form-control" id="txtPhone"
-                                                   placeholder="0771234567">
+                                                   data-i18n="employees_phone" placeholder="0771234567">
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="txtHireDate">Hire Date <span class="text-muted">(Optional)</span></label>
+                                            <label for="txtHireDate" data-i18n="employees_hire_date">Hire Date <span class="text-muted">(Optional)</span></label>
                                             <input type="date" class="form-control" id="txtHireDate">
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- ROW 3: LOGIN CREDENTIALS (new!) -->
+                                <!-- ROW 3: Login Credentials -->
                                 <div class="row">
                                     <div class="col-12">
                                         <hr>
@@ -220,19 +356,19 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="txtUsername">Username <span class="text-danger">*</span></label>
+                                            <label for="txtUsername" data-i18n="employees_username">Username <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="txtUsername"
-                                                   placeholder="e.g. john_doe" required>
+                                                   data-i18n="employees_username" placeholder="e.g. john_doe" required>
                                             <small class="form-text text-muted">Employee uses this to log in</small>
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="txtPassword">Password <span class="text-danger" id="passwordRequired">*</span></label>
+                                            <label for="txtPassword" data-i18n="employees_password">Password <span class="text-danger" id="passwordRequired">*</span></label>
                                             <div class="input-group">
                                                 <input type="password" class="form-control" id="txtPassword"
-                                                       placeholder="Enter password">
+                                                       data-i18n="employees_password" placeholder="Enter password">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-secondary" type="button"
                                                             id="btnTogglePassword">👁️</button>
@@ -251,12 +387,11 @@
                                         </div>
                                     </div>
 
-                                    <!-- Access Level Badge Preview -->
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Access Level Preview</label>
                                             <div id="accessLevelPreview" class="p-2 rounded text-center"
-                                                 style="background:#f8f9fa; border:2px dashed #dee2e6; min-height:38px;">
+                                                 style="background:#f8f9fa;border:2px dashed #dee2e6;min-height:38px;">
                                                 <small class="text-muted">Select a position</small>
                                             </div>
                                         </div>
@@ -267,19 +402,17 @@
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <button type="button" class="btn btn-success" id="btnSave">
-                                            💾 Save Employee
+                                            💾 <span data-i18n="employees_save">Save Employee</span>
                                         </button>
                                         <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;">
-                                            ✏️ Update Employee
+                                            ✏️ <span data-i18n="employees_update">Update Employee</span>
                                         </button>
-                                        <button type="button" class="btn btn-danger" id="btnDelete"
-                                                style="display:none;" id="btnDelete">
-                                            🗑️ Delete Employee
+                                        <button type="button" class="btn btn-danger" id="btnDelete" style="display:none;">
+                                            🗑️ <span data-i18n="employees_delete">Delete Employee</span>
                                         </button>
                                         <button type="button" class="btn btn-warning" id="btnClear">
-                                            🔄 Clear Form
+                                            🔄 <span data-i18n="clear">Clear Form</span>
                                         </button>
-                                        <!-- Only owner can delete - hidden for managers -->
                                         <span id="ownerOnlyNote" class="text-muted ml-3" style="display:none;">
                                             <small>⚠️ Only Owners can delete employees</small>
                                         </span>
@@ -294,38 +427,38 @@
             <!-- Search Section -->
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <div class="card" style="border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.1); border:none;">
+                    <div class="card" style="border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);border:none;">
                         <div class="card-header bg-info text-white" style="border-radius:12px 12px 0 0;">
-                            <h5 class="mb-0">🔍 Search Employees</h5>
+                            <h5 class="mb-0">🔍 <span data-i18n="search">Search Employees</span></h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Search by Name</label>
+                                        <label data-i18n="employees_name">Search by Name</label>
                                         <input type="text" class="form-control" id="txtSearchName"
-                                               placeholder="Enter employee name">
+                                               data-i18n="employees_name" placeholder="Enter employee name">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Filter by Position</label>
+                                        <label data-i18n="employees_position">Filter by Position</label>
                                         <select class="form-control" id="txtSearchPosition">
-                                            <option value="">All Positions</option>
-                                            <option value="OWNER">Owner</option>
-                                            <option value="MANAGER">Manager</option>
-                                            <option value="ASSISTANT_MANAGER">Assistant Manager</option>
-                                            <option value="CASHIER">Cashier</option>
+                                            <option value="" data-i18n="pos_all_categories">All Positions</option>
+                                            <option value="OWNER" data-i18n="position_owner">Owner</option>
+                                            <option value="MANAGER" data-i18n="position_manager">Manager</option>
+                                            <option value="ASSISTANT_MANAGER" data-i18n="position_asst_manager">Assistant Manager</option>
+                                            <option value="CASHIER" data-i18n="position_cashier">Cashier</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Status</label>
+                                        <label data-i18n="items_status">Status</label>
                                         <select class="form-control" id="txtSearchStatus">
-                                            <option value="">All</option>
-                                            <option value="true">Active</option>
-                                            <option value="false">Inactive</option>
+                                            <option value="" data-i18n="pos_all_categories">All</option>
+                                            <option value="true" data-i18n="items_active">Active</option>
+                                            <option value="false" data-i18n="items_inactive">Inactive</option>
                                         </select>
                                     </div>
                                 </div>
@@ -333,7 +466,7 @@
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <button type="button" class="btn btn-info btn-block" id="btnSearch">
-                                            🔍 Search
+                                            🔍 <span data-i18n="search">Search</span>
                                         </button>
                                     </div>
                                 </div>
@@ -346,24 +479,24 @@
             <!-- Employees Table -->
             <div class="row mt-4 mb-5">
                 <div class="col-md-12">
-                    <div class="card" style="border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.1); border:none;">
+                    <div class="card" style="border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);border:none;">
                         <div class="card-header bg-dark text-white" style="border-radius:12px 12px 0 0;">
-                            <h5 class="mb-0">📋 Employee List</h5>
+                            <h5 class="mb-0">📋 <span data-i18n="employees_title">Employee List</span></h5>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table table-hover mb-0" id="employeesTable">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Salary</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th data-i18n="employees_id">ID</th>
+                                            <th data-i18n="employees_name">Name</th>
+                                            <th data-i18n="employees_position">Position</th>
+                                            <th data-i18n="employees_username">Username</th>
+                                            <th data-i18n="employees_email">Email</th>
+                                            <th data-i18n="employees_phone">Phone</th>
+                                            <th data-i18n="employees_salary">Salary</th>
+                                            <th data-i18n="items_status">Status</th>
+                                            <th data-i18n="edit">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tblEmployeesBody">
@@ -388,6 +521,10 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <!-- Language Support -->
+    <script src="js/languages.js"></script>
+    <!-- Global Navbar JS -->
+    <script src="js/navbar-global.js"></script>
     <!-- Controller -->
     <script src="js/manage-employees-controller.js"></script>
 
