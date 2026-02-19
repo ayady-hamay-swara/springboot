@@ -94,11 +94,11 @@
             <div class="settings-section">
                 <div class="settings-label" data-i18n="settings_currency">Default Currency</div>
                 <select id="globalCurrency" class="settings-input">
-                    <option value="$">$ — US Dollar</option>
-                    <option value="€">€ — Euro</option>
-                    <option value="£">£ — British Pound</option>
-                    <option value="AED">AED — UAE Dirham</option>
-                    <option value="iq">IQ — Iraqi Dinar</option>
+                    <option value="IQD" selected>IQD — Iraqi Dinar</option>
+                    <option value="USD">USD — US Dollar</option>
+                    <option value="EUR">EUR — Euro</option>
+                    <option value="GBP">GBP — British Pound</option>
+                    <option value="AUD">AUD — Australian Dollar</option>
                 </select>
             </div>
             <div class="settings-section">
@@ -189,7 +189,7 @@
                 <div class="stats-bar">
                     <div class="stat-pill">
                         <span class="stat-lbl" data-i18n="pos_today_sales">Today's Sales</span>
-                        <span class="stat-val" id="todaySales">Rs. 0.00</span>
+                        <span class="stat-val" id="todaySales">IQD 0.00</span>
                     </div>
                     <div class="stat-pill">
                         <span class="stat-lbl" data-i18n="pos_transactions">Transaction</span>
@@ -241,17 +241,17 @@
                 <div class="totals-bar">
                     <div class="total-item">
                         <span class="total-lbl" data-i18n="pos_subtotal">Subtotal:</span>
-                        <span class="total-val" id="subtotal">Rs. 0.00</span>
+                        <span class="total-val" id="subtotal">IQD 0.00</span>
                     </div>
                     <div class="total-item discount-item">
                         <span class="total-lbl" data-i18n="pos_discount">Discount:</span>
                         <input type="number" id="discountPercent" class="discount-input" value="0" min="0" max="100" step="1">
                         <span class="total-lbl">%</span>
-                        <span class="total-val text-danger" id="discountAmount">- Rs. 0.00</span>
+                        <span class="total-val text-danger" id="discountAmount">- IQD 0.00</span>
                     </div>
                     <div class="total-item total-final">
                         <span class="total-lbl" data-i18n="pos_total">Total:</span>
-                        <span class="total-val" id="totalAmount">Rs. 0.00</span>
+                        <span class="total-val" id="totalAmount">IQD 0.00</span>
                     </div>
                 </div>
 
@@ -278,24 +278,23 @@
                     <div class="right-section-title" data-i18n="pos_currency_converter">💱 Currency Converter</div>
                     <div class="currency-total-row">
                         <span class="currency-lbl" data-i18n="pos_pos_total">POS Total:</span>
-                        <span class="currency-pos-total" id="currPosTotal">Rs. 0.00</span>
+                        <span class="currency-pos-total" id="currPosTotal">IQD 0.00</span>
                     </div>
                     <div class="currency-row">
                         <select id="currFrom" class="curr-select">
-                            <option value="LKR" data-symbol="Rs.">Rs. LKR</option>
-                            <option value="USD" data-symbol="$">$ USD</option>
-                            <option value="EUR" data-symbol="€">€ EUR</option>
-                            <option value="GBP" data-symbol="£">£ GBP</option>
-                            <option value="INR" data-symbol="₹">₹ INR</option>
-                            <option value="JPY" data-symbol="¥">¥ JPY</option>
-                            <option value="AED" data-symbol="AED">AED</option>
+                            <option value="IQD" data-symbol="IQD" selected>IQD </option>
+                            <option value="USD" data-symbol="$">USD </option>
+                            <option value="EUR" data-symbol="€">EUR </option>
+                            <option value="GBP" data-symbol="£">GBP </option>
+                            <option value="AUD" data-symbol="A$">AUD </option>
                         </select>
                         <span class="curr-arrow">→</span>
                         <select id="currTo" class="curr-select">
-                            <option value="USD" data-symbol="$">$ USD</option>
-                            <option value="LKR" data-symbol="Rs.">IQ Dinar</option>
-                            <option value="EUR" data-symbol="€">€ EUR</option>
-                            <option value="GBP" data-symbol="£">£ GBP</option>
+                            <option value="USD" data-symbol="$" selected>USD </option>
+                            <option value="IQD" data-symbol="IQD">IQD </option>
+                            <option value="EUR" data-symbol="€">EUR </option>
+                            <option value="GBP" data-symbol="£">GBP </option>
+                            <option value="AUD" data-symbol="A$">AUD </option>
                         </select>
                     </div>
                     <div class="currency-input-row">
@@ -319,7 +318,7 @@
                         <input type="number" id="amountReceived" class="cash-input" placeholder="0.00" step="0.01">
                         <div class="change-row">
                             <span data-i18n="pos_change">Change:</span>
-                            <span id="changeAmount" class="change-val">Rs. 0.00</span>
+                            <span id="changeAmount" class="change-val">IQD 0.00</span>
                         </div>
                     </div>
                 </div>
