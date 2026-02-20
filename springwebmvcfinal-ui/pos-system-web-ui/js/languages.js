@@ -19,7 +19,7 @@ const translations = {
         nav_items: 'کاڵاکان',
         nav_employees: 'کارمەندان',
         nav_pos: 'فرۆشتن',
-        nav_search: 'وەسڵەکان',
+        nav_search: 'قەرزەکان',
         
         // Items
         items_title: 'بەڕێوەبردنی کاڵا',
