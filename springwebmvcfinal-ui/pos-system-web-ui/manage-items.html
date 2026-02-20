@@ -1,499 +1,352 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Items - POS System</title>
-    
-    <!-- Bootstrap CSS -->
+    <title>بەڕێوەبردنی کاڵا</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/manage-items.css">
-    <!-- Global Navbar CSS -->
     <link rel="stylesheet" href="css/navbar-global.css">
+    <link rel="stylesheet" href="css/manage-items.css">
 </head>
 <body>
 
-    <!-- ════════════════════════════════════════════════════════════════════
-         GLOBAL NAVBAR
-         ════════════════════════════════════════════════════════════════════ -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
+<!-- Global Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
+    <a class="navbar-brand font-weight-bold" href="index.html">
+        🏪 <span data-i18n="brand_name">سیستەمی فرۆشتن</span>
+    </a>
 
-        <a class="navbar-brand font-weight-bold" href="index.html">
-            🏪 <span data-i18n="brand_name">POS System</span>
-        </a>
+    <div class="navbar-left-actions">
+        <button class="nav-icon-btn" id="btnGlobalSettings" title="ڕێکخستنەکان">⚙️</button>
+        <button class="nav-icon-btn" id="btnGlobalCalc" title="ژمێرەر">🧮</button>
+    </div>
 
-        <div class="navbar-left-actions">
-            <button class="nav-icon-btn" id="btnGlobalSettings" title="Settings">⚙️</button>
-            <button class="nav-icon-btn" id="btnGlobalCalc" title="Calculator">🧮</button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="globalNavbar">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav_home">سەرەکی</a></li>
+            <li class="nav-item active"><a class="nav-link" href="manage-items.html" data-i18n="nav_items">کاڵاکان</a></li>
+            <li class="nav-item"><a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">کارمەندان</a></li>
+            <li class="nav-item"><a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 فرۆشتن</a></li>
+            <li class="nav-item"><a class="nav-link" href="search-orders.html" data-i18n="nav_search">وەسڵەکان</a></li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="langDropdown" data-toggle="dropdown">
+                    🌐 <span id="currentLangLabel">کوردی</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">🟥🟩⚪ کوردی</a>
+                    <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">🇬🇧 English</a>
+                    <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">🇸🇦 العربية</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link text-warning">👤 <strong id="navbarUsername">بەڕێوەبەر</strong></span>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Settings & Calculator Popups -->
+<div class="global-popup" id="globalSettingsPanel">
+    <div class="popup-header">
+        <span>⚙️ <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
+        <button class="popup-close" id="settingsCloseBtn">✕</button>
+    </div>
+    <div class="settings-body">
+        <div class="settings-section">
+            <div class="settings-label" data-i18n="settings_store">ناوی فرۆشگا</div>
+            <input type="text" id="globalStoreName" class="settings-input" placeholder="فرۆشگای من">
         </div>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="globalNavbar">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html" data-i18n="nav_home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-customers.html" data-i18n="nav_customers">Customers</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="manage-items.html" data-i18n="nav_items">Items</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-categories.html" data-i18n="nav_categories">Categories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">Employees</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 POS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="search-orders.html" data-i18n="nav_search">Orders</a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        🌐 <span id="currentLangLabel">English</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
-                        <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">🇬🇧 English</a>
-                        <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">🟥🟩⚪ کوردی</a>
-                        <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">🇸🇦 العربية</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <span class="nav-link text-warning">
-                        👤 <strong id="navbarUsername">Admin</strong>
-                    </span>
-                </li>
-            </ul>
+        <div class="settings-section">
+            <div class="settings-label" data-i18n="settings_tax">ڕێژەی باج (%)</div>
+            <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
         </div>
-    </nav>
 
-
-    <!-- ════════════════════════════════════════════════════════════════════
-         GLOBAL SETTINGS POPUP
-         ════════════════════════════════════════════════════════════════════ -->
-    <div class="global-popup" id="globalSettingsPanel">
-        <div class="popup-header">
-            <span>⚙️ <span data-i18n="settings_title">Settings</span></span>
-            <button class="popup-close" id="settingsCloseBtn">✕</button>
+        <div class="settings-section">
+            <div class="settings-label" data-i18n="settings_auto_print">چاپی خۆکار</div>
+            <label class="toggle-label">
+                <input type="checkbox" id="globalAutoPrint">
+                <span class="toggle-track"></span>
+                <span class="toggle-text">ناچالاک</span>
+            </label>
         </div>
-        <div class="settings-body">
-            <div class="settings-section">
-                <div class="settings-label" data-i18n="settings_store">Store Name</div>
-                <input type="text" id="globalStoreName" class="settings-input" placeholder="My Store">
-            </div>
-            <div class="settings-section">
-                <div class="settings-label" data-i18n="settings_currency">Default Currency</div>
-                <select id="globalCurrency" class="settings-input">
-                    <option value="IQD" selected>IQD — Iraqi Dinar</option>
-                    <option value="$">$ — US Dollar</option>
-                    <option value="€">€ — Euro</option>
-                    <option value="£">£ — British Pound</option>
-                    <option value="AED">AED — UAE Dirham</option>
-                </select>
-            </div>
-            <div class="settings-section">
-                <div class="settings-label" data-i18n="settings_tax">Tax Rate (%)</div>
-                <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
-            </div>
-            <div class="settings-section">
-                <div class="settings-label" data-i18n="settings_auto_print">Auto-print Receipt</div>
-                <label class="toggle-label">
-                    <input type="checkbox" id="globalAutoPrint">
-                    <span class="toggle-track"></span>
-                    <span class="toggle-text">Off</span>
-                </label>
-            </div>
-            <div class="settings-section">
-                <div class="settings-label" data-i18n="settings_sound">Sound on Add to Cart</div>
-                <label class="toggle-label">
-                    <input type="checkbox" id="globalSound" checked>
-                    <span class="toggle-track"></span>
-                    <span class="toggle-text">On</span>
-                </label>
-            </div>
-            <div class="settings-section">
-                <div class="settings-label" data-i18n="settings_cashier_name">Your Name</div>
-                <input type="text" id="globalCashierName" class="settings-input" placeholder="Admin">
-            </div>
-            <button class="settings-save-btn" id="btnGlobalSaveSettings">
-                💾 <span data-i18n="settings_save">Save Settings</span>
-            </button>
+
+        <div class="settings-section">
+            <div class="settings-label" data-i18n="settings_sound">دەنگ لە زیادکردن</div>
+            <label class="toggle-label">
+                <input type="checkbox" id="globalSound" checked>
+                <span class="toggle-track"></span>
+                <span class="toggle-text">چالاک</span>
+            </label>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label" data-i18n="settings_cashier_name">ناوی بەکارهێنەر</div>
+            <input type="text" id="globalCashierName" class="settings-input" placeholder="بەڕێوەبەر">
+        </div>
+
+        <button class="settings-save-btn" id="btnGlobalSaveSettings">💾 <span data-i18n="settings_save">پاشەکەوت</span></button>
+    </div>
+</div>
+
+<div class="global-popup" id="globalCalcPanel">
+    <div class="popup-header">
+        <span>🧮 <span data-i18n="calc_title">ژمێرەر</span></span>
+        <button class="popup-close" id="calcCloseBtn">✕</button>
+    </div>
+    <div class="calc-wrap">
+        <div class="calc-display">
+            <div class="calc-expr" id="globalCalcExpr">&nbsp;</div>
+            <div class="calc-result" id="globalCalcResult">0</div>
+        </div>
+        <div class="calc-grid">
+            <button class="cb cb-fn" data-action="clear">AC</button>
+            <button class="cb cb-fn" data-action="sign">+/−</button>
+            <button class="cb cb-fn" data-action="percent">%</button>
+            <button class="cb cb-op" data-op="÷">÷</button>
+            <button class="cb" data-num="7">7</button>
+            <button class="cb" data-num="8">8</button>
+            <button class="cb" data-num="9">9</button>
+            <button class="cb cb-op" data-op="×">×</button>
+            <button class="cb" data-num="4">4</button>
+            <button class="cb" data-num="5">5</button>
+            <button class="cb" data-num="6">6</button>
+            <button class="cb cb-op" data-op="−">−</button>
+            <button class="cb" data-num="1">1</button>
+            <button class="cb" data-num="2">2</button>
+            <button class="cb" data-num="3">3</button>
+            <button class="cb cb-op" data-op="+">+</button>
+            <button class="cb cb-zero" data-num="0">0</button>
+            <button class="cb" data-num=".">.</button>
+            <button class="cb cb-eq" data-action="equals">=</button>
+        </div>
+    </div>
+</div>
+
+<div class="global-popup-backdrop" id="globalBackdrop"></div>
+
+<!-- Main Content -->
+<div class="container-fluid mt-4">
+    
+    <!-- Page Title -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title">📦 <span data-i18n="items_title">بەڕێوەبردنی کاڵا</span></h2>
         </div>
     </div>
 
-
-    <!-- ════════════════════════════════════════════════════════════════════
-         GLOBAL CALCULATOR POPUP
-         ════════════════════════════════════════════════════════════════════ -->
-    <div class="global-popup" id="globalCalcPanel">
-        <div class="popup-header">
-            <span>🧮 <span data-i18n="calc_title">Calculator</span></span>
-            <button class="popup-close" id="calcCloseBtn">✕</button>
-        </div>
-        <div class="calc-wrap">
-            <div class="calc-display">
-                <div class="calc-expr" id="globalCalcExpr">&nbsp;</div>
-                <div class="calc-result" id="globalCalcResult">0</div>
+    <!-- Stats Cards -->
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-info">
+                    <h3 id="totalItems">0</h3>
+                    <p data-i18n="items_total">کۆی کاڵاکان</p>
+                </div>
             </div>
-            <div class="calc-grid">
-                <button class="cb cb-fn" data-action="clear">AC</button>
-                <button class="cb cb-fn" data-action="sign">+/−</button>
-                <button class="cb cb-fn" data-action="percent">%</button>
-                <button class="cb cb-op" data-op="÷">÷</button>
-                <button class="cb" data-num="7">7</button>
-                <button class="cb" data-num="8">8</button>
-                <button class="cb" data-num="9">9</button>
-                <button class="cb cb-op" data-op="×">×</button>
-                <button class="cb" data-num="4">4</button>
-                <button class="cb" data-num="5">5</button>
-                <button class="cb" data-num="6">6</button>
-                <button class="cb cb-op" data-op="−">−</button>
-                <button class="cb" data-num="1">1</button>
-                <button class="cb" data-num="2">2</button>
-                <button class="cb" data-num="3">3</button>
-                <button class="cb cb-op" data-op="+">+</button>
-                <button class="cb cb-zero" data-num="0">0</button>
-                <button class="cb" data-num=".">.</button>
-                <button class="cb cb-eq" data-action="equals">=</button>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-info">
+                    <h3 id="lowStockItems">0</h3>
+                    <p data-i18n="items_low_stock">کۆگای کەم</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <div class="stat-info">
+                    <h3 id="outOfStockItems">0</h3>
+                    <p data-i18n="items_out_stock">کۆگا نییە</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <h3 id="totalValue">IQD 0</h3>
+                    <p data-i18n="items_total_value">کۆی نرخ</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Backdrop for popups -->
-    <div class="global-popup-backdrop" id="globalBackdrop"></div>
-
-
-    <!-- Main Content -->
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="page-title">📦 <span data-i18n="items_title">Inventory Management</span></h2>
-                <hr>
-            </div>
-        </div>
-
-        <!-- Statistics Cards -->
-        <div class="row mt-3">
-            <div class="col-md-3">
-                <div class="card stat-card stat-total">
-                    <div class="card-body">
-                        <div class="stat-icon">📦</div>
-                        <div class="stat-info">
-                            <h5 class="card-title" data-i18n="items_total">Total Items</h5>
-                            <h2 id="totalItems">0</h2>
-                            <small class="text-muted" data-i18n="items_active">Active products</small>
-                        </div>
-                    </div>
+    <!-- Item Form -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 data-i18n="items_form_title">زانیاری کاڵا</h5>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stat-card stat-low">
-                    <div class="card-body">
-                        <div class="stat-icon">⚠️</div>
-                        <div class="stat-info">
-                            <h5 class="card-title" data-i18n="items_low_stock">Low Stock</h5>
-                            <h2 id="lowStockItems">0</h2>
-                            <small class="text-muted">Need restock</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stat-card stat-out">
-                    <div class="card-body">
-                        <div class="stat-icon">❌</div>
-                        <div class="stat-info">
-                            <h5 class="card-title" data-i18n="items_out_stock">Out of Stock</h5>
-                            <h2 id="outOfStockItems">0</h2>
-                            <small class="text-muted">Urgent action</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stat-card stat-value">
-                    <div class="card-body">
-                        <div class="stat-icon">💰</div>
-                        <div class="stat-info">
-                            <h5 class="card-title" data-i18n="items_total_value">Total Value</h5>
-                            <h2 id="totalValue">IQD 0</h2>
-                            <small class="text-muted">Inventory worth</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Item Form -->
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">📝 <span data-i18n="items_title">Product Information</span></h5>
-                    </div>
-                    <div class="card-body">
-                        <form id="itemForm">
-                            <div class="row">
-                                <!-- Item Code -->
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="txtItemCode" data-i18n="items_code">Item Code</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="txtItemCode"
-                                                   placeholder="I001" readonly>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                        id="btnGenerateCode">🔄</button>
-                                            </div>
+                <div class="card-body">
+                    <form id="itemForm">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label data-i18n="items_code">کۆدی کاڵا <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="txtCode" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label data-i18n="items_name">ناوی کاڵا <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="txtName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label data-i18n="items_category">جۆر</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="txtCategory">
+                                            <option value="">هەڵبژێرە...</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="btnManageCategories">⚙️</button>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Product Name -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="txtDescription" data-i18n="items_name">Product Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="txtDescription"
-                                               data-i18n="items_name" placeholder="Enter product name" required>
-                                    </div>
-                                </div>
-
-                                <!-- Category -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="txtCategory" data-i18n="items_category">Category <span class="text-muted">(Optional)</span></label>
-                                        <select class="form-control" id="txtCategory">
-                                            <option value="" data-i18n="pos_all_categories">Select category</option>
-                                            <!-- Categories loaded dynamically -->
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Status -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="txtStatus" data-i18n="items_status">Status</label>
-                                        <select class="form-control" id="txtStatus">
-                                            <option value="true" data-i18n="items_active">Active</option>
-                                            <option value="false" data-i18n="items_inactive">Inactive</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label data-i18n="items_barcode">بارکۆد</label>
+                                    <input type="text" class="form-control" id="txtBarcode">
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <!-- Unit Price -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="txtUnitPrice" data-i18n="items_price">Unit Price (IQD) <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="txtUnitPrice"
-                                               placeholder="0.00" step="0.01" min="0" required>
-                                    </div>
-                                </div>
-
-                                <!-- Stock Qty -->
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="txtQtyOnHand" data-i18n="items_stock">Stock Qty <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="txtQtyOnHand"
-                                               placeholder="0" min="0" required>
-                                    </div>
-                                </div>
-
-                                <!-- Min Stock -->
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="txtMinStock" data-i18n="items_min_stock">Min Stock <span class="text-muted">(Optional)</span></label>
-                                        <input type="number" class="form-control" id="txtMinStock"
-                                               placeholder="10" min="0" value="10">
-                                    </div>
-                                </div>
-
-                                <!-- Barcode -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="txtBarcode" data-i18n="items_barcode">Barcode <span class="text-muted">(Optional)</span></label>
-                                        <input type="text" class="form-control" id="txtBarcode"
-                                               placeholder="Enter barcode">
-                                    </div>
-                                </div>
-
-                                <!-- Image -->
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Image</label>
-                                        <button type="button" class="btn btn-outline-secondary btn-block"
-                                                id="btnUploadImage">
-                                            📷 Upload
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Notes -->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="txtNotes" data-i18n="items_notes">Notes <span class="text-muted">(Optional)</span></label>
-                                        <textarea class="form-control" id="txtNotes" rows="2"
-                                                  data-i18n="items_notes_placeholder"
-                                                  placeholder="e.g., Size M, Color Red, Serial Number, Warranty Info, etc."></textarea>
-                                        <small class="form-text text-muted">
-                                            💡 Use this field for: Size, Color, Serial Number, Warranty Info, Special Instructions, etc.
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-success" id="btnSave">
-                                        💾 <span data-i18n="items_save">Save Item</span>
-                                    </button>
-                                    <button type="button" class="btn btn-primary" id="btnUpdate">
-                                        ✏️ <span data-i18n="items_update">Update Item</span>
-                                    </button>
-                                    <button type="button" class="btn btn-danger" id="btnDelete">
-                                        🗑️ <span data-i18n="items_delete">Delete Item</span>
-                                    </button>
-                                    <button type="button" class="btn btn-warning" id="btnClear">
-                                        🔄 <span data-i18n="clear">Clear Form</span>
-                                    </button>
-                                    <button type="button" class="btn btn-info" id="btnStockAdjust" style="display:none;">
-                                        📊 <span data-i18n="items_stock">Adjust Stock</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Search/Filter Section -->
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0">🔍 <span data-i18n="search">Search & Filter Items</span></h5>
-                    </div>
-                    <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="txtSearchName" data-i18n="items_name">Search by Name/Code</label>
-                                    <input type="text" class="form-control" id="txtSearchName"
-                                           data-i18n="items_name" placeholder="Enter name or code">
+                                    <label data-i18n="items_price">نرخ (IQD) <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="txtPrice" step="0.01" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="txtSearchCategory" data-i18n="items_category">Category</label>
-                                    <select class="form-control" id="txtSearchCategory">
-                                        <option value="" data-i18n="pos_all_categories">All Categories</option>
-                                        <!-- Dynamic categories -->
-                                    </select>
+                                    <label data-i18n="items_stock">کۆگا <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="txtStock" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="txtSearchStock" data-i18n="items_stock">Stock Level</label>
-                                    <select class="form-control" id="txtSearchStock">
-                                        <option value="" data-i18n="pos_all_categories">All</option>
-                                        <option value="in_stock" data-i18n="items_active">In Stock</option>
-                                        <option value="low_stock" data-i18n="items_low_stock">Low Stock</option>
-                                        <option value="out_of_stock" data-i18n="items_out_stock">Out of Stock</option>
-                                    </select>
+                                    <label data-i18n="items_min_stock">کەمترین کۆگا</label>
+                                    <input type="number" class="form-control" id="txtMinStock" value="10">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="txtSearchStatus" data-i18n="items_status">Status</label>
-                                    <select class="form-control" id="txtSearchStatus">
-                                        <option value="" data-i18n="pos_all_categories">All</option>
-                                        <option value="true" data-i18n="items_active">Active</option>
-                                        <option value="false" data-i18n="items_inactive">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>&nbsp;</label>
-                                    <button type="button" class="btn btn-info btn-block" id="btnSearch">
-                                        🔍 <span data-i18n="search">Search</span>
-                                    </button>
+                                    <label data-i18n="items_notes">تێبینی</label>
+                                    <textarea class="form-control" id="txtNotes" rows="2" placeholder="قەبارە، ڕەنگ، ژمارە زنجیرە..."></textarea>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-success" id="btnSave">
+                                <span data-i18n="save">پاشەکەوت</span>
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;">
+                                <span data-i18n="items_update">نوێکردنەوە</span>
+                            </button>
+                            <button type="button" class="btn btn-danger" id="btnDelete" style="display:none;">
+                                <span data-i18n="delete">سڕینەوە</span>
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btnClear">
+                                <span data-i18n="clear">پاککردنەوە</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Items Table -->
-        <div class="row mt-4 mb-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">📋 <span data-i18n="items_title">Inventory List</span></h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover" id="itemsTable">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th data-i18n="items_code">Code</th>
-                                        <th data-i18n="items_name">Product Name</th>
-                                        <th data-i18n="items_category">Category</th>
-                                        <th data-i18n="items_price">Price</th>
-                                        <th data-i18n="items_stock">Stock</th>
-                                        <th data-i18n="items_min_stock">Min Stock</th>
-                                        <th data-i18n="items_status">Status</th>
-                                        <th data-i18n="items_notes">Notes</th>
-                                        <th data-i18n="edit">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblItemsBody">
-                                    <!-- Items loaded dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
+    <!-- Search & Filter -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <input type="text" class="form-control" id="txtSearch" placeholder="گەڕان بە ناو، کۆد یان بارکۆد...">
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" id="filterCategory">
+                <option value="">هەموو جۆرەکان</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" id="filterStock">
+                <option value="">هەموو کاڵاکان</option>
+                <option value="low">کۆگای کەم</option>
+                <option value="out">کۆگا نییە</option>
+                <option value="ok">کۆگا هەیە</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Items Table -->
+    <div class="row mt-3 mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="items_code">کۆد</th>
+                                    <th data-i18n="items_name">ناوی کاڵا</th>
+                                    <th data-i18n="items_category">جۆر</th>
+                                    <th data-i18n="items_price">نرخ</th>
+                                    <th data-i18n="items_stock">کۆگا</th>
+                                    <th data-i18n="items_barcode">بارکۆد</th>
+                                    <th data-i18n="items_notes">تێبینی</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsTableBody"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="mt-5 py-3 bg-dark text-white text-center">
-        <p>&copy; 2025 POS System. All rights reserved.</p>
-    </footer>
+</div>
 
-    <!-- jQuery -->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Language Support -->
-    <script src="js/languages.js"></script>
-    <!-- Global Navbar JS -->
-    <script src="js/navbar-global.js"></script>
-    <!-- Custom JS -->
-    <script src="js/manage-items-controller.js"></script>
+<!-- Category Management Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">بەڕێوەبردنی جۆرەکان</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>✕</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="newCategoryName" placeholder="ناوی جۆری نوێ...">
+                </div>
+                <button class="btn btn-success btn-sm" id="btnAddCategory">➕ زیادکردن</button>
+                
+                <div class="mt-3">
+                    <div id="categoriesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script src="js/languages.js"></script>
+<script src="js/navbar-global.js"></script>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/manage-items-controller.js"></script>
 </body>
 </html>
