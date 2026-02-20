@@ -11,62 +11,107 @@
 <body>
 
 <!-- Global Navbar -->
+<!-- ════════════════════════════════════════════════════════════════════
+     REFORMED GLOBAL NAVBAR - Kurdish Default, Simplified
+     Usage: Copy this entire block to the top of each HTML file
+     ════════════════════════════════════════════════════════════════════ -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
+    
+    <!-- Brand -->
     <a class="navbar-brand font-weight-bold" href="index.html">
         🏪 <span data-i18n="brand_name">سیستەمی فرۆشتن</span>
     </a>
 
+    <!-- LEFT SIDE: Settings & Calculator Buttons -->
     <div class="navbar-left-actions">
-        <button class="nav-icon-btn" id="btnGlobalSettings" title="ڕێکخستنەکان">⚙️</button>
-        <button class="nav-icon-btn" id="btnGlobalCalc" title="ژمێرەر">🧮</button>
+        <button class="nav-icon-btn" id="btnGlobalSettings" title="ڕێکخستنەکان">
+            ⚙️
+        </button>
+        <button class="nav-icon-btn" id="btnGlobalCalc" title="ژمێرەر">
+            🧮
+        </button>
     </div>
 
+    <!-- Mobile Toggle -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- CENTER: Navigation Links (SIMPLIFIED - 5 tabs only) -->
     <div class="collapse navbar-collapse" id="globalNavbar">
         <ul class="navbar-nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav_home">سەرەکی</a></li>
-            <li class="nav-item active"><a class="nav-link" href="manage-items.html" data-i18n="nav_items">کاڵاکان</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">کارمەندان</a></li>
-            <li class="nav-item"><a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 فرۆشتن</a></li>
-            <li class="nav-item"><a class="nav-link" href="search-orders.html" data-i18n="nav_search">وەسڵەکان</a></li>
-        </ul>
-
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="langDropdown" data-toggle="dropdown">
-                    🌐 <span id="currentLangLabel">کوردی</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">🟥🟩⚪ کوردی</a>
-                    <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">🇬🇧 English</a>
-                    <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">🇸🇦 العربية</a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html" data-i18n="nav_home">سەرەکی</a>
             </li>
             <li class="nav-item">
-                <span class="nav-link text-warning">👤 <strong id="navbarUsername">بەڕێوەبەر</strong></span>
+                <a class="nav-link" href="manage-items.html" data-i18n="nav_items">کاڵاکان</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">کارمەندان</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 فرۆشتن</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="search-orders.html" data-i18n="nav_search">وەسڵەکان</a>
+            </li>
+        </ul>
+
+        <!-- RIGHT SIDE: Language Switcher & User Info -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Language Switcher (Kurdish First) -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="langDropdown" 
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    🌐 <span id="currentLangLabel">کوردی</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                    <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">
+                        🟥🟩⚪ کوردی
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">
+                        🇬🇧 English
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">
+                        🇸🇦 العربية
+                    </a>
+                </div>
+            </li>
+
+            <!-- User Info -->
+            <li class="nav-item">
+                <span class="nav-link text-warning">
+                    👤 <strong id="navbarUsername">بەڕێوەبەر</strong>
+                </span>
             </li>
         </ul>
     </div>
+
 </nav>
 
-<!-- Settings & Calculator Popups -->
+
+<!-- ════════════════════════════════════════════════════════════════════
+     GLOBAL SETTINGS POPUP - SIMPLIFIED (No Currency)
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="global-popup" id="globalSettingsPanel">
     <div class="popup-header">
         <span>⚙️ <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
         <button class="popup-close" id="settingsCloseBtn">✕</button>
     </div>
     <div class="settings-body">
+
         <div class="settings-section">
             <div class="settings-label" data-i18n="settings_store">ناوی فرۆشگا</div>
             <input type="text" id="globalStoreName" class="settings-input" placeholder="فرۆشگای من">
         </div>
 
+        <!-- CURRENCY REMOVED - Fixed as IQD -->
+
         <div class="settings-section">
             <div class="settings-label" data-i18n="settings_tax">ڕێژەی باج (%)</div>
-            <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
+            <input type="number" id="globalTaxRate" class="settings-input" 
+                   placeholder="0" min="0" max="100" step="0.1">
         </div>
 
         <div class="settings-section">
@@ -74,7 +119,7 @@
             <label class="toggle-label">
                 <input type="checkbox" id="globalAutoPrint">
                 <span class="toggle-track"></span>
-                <span class="toggle-text">ناچالاک</span>
+                <span class="toggle-text" data-i18n="toggle_off">ناچالاک</span>
             </label>
         </div>
 
@@ -83,7 +128,7 @@
             <label class="toggle-label">
                 <input type="checkbox" id="globalSound" checked>
                 <span class="toggle-track"></span>
-                <span class="toggle-text">چالاک</span>
+                <span class="toggle-text" data-i18n="toggle_on">چالاک</span>
             </label>
         </div>
 
@@ -92,44 +137,20 @@
             <input type="text" id="globalCashierName" class="settings-input" placeholder="بەڕێوەبەر">
         </div>
 
-        <button class="settings-save-btn" id="btnGlobalSaveSettings">💾 <span data-i18n="settings_save">پاشەکەوت</span></button>
+        <button class="settings-save-btn" id="btnGlobalSaveSettings">
+            💾 <span data-i18n="settings_save">پاشەکەوت</span>
+        </button>
     </div>
 </div>
 
-<div class="global-popup" id="globalCalcPanel">
-    <div class="popup-header">
-        <span>🧮 <span data-i18n="calc_title">ژمێرەر</span></span>
-        <button class="popup-close" id="calcCloseBtn">✕</button>
-    </div>
-    <div class="calc-wrap">
-        <div class="calc-display">
-            <div class="calc-expr" id="globalCalcExpr">&nbsp;</div>
-            <div class="calc-result" id="globalCalcResult">0</div>
-        </div>
-        <div class="calc-grid">
-            <button class="cb cb-fn" data-action="clear">AC</button>
-            <button class="cb cb-fn" data-action="sign">+/−</button>
-            <button class="cb cb-fn" data-action="percent">%</button>
-            <button class="cb cb-op" data-op="÷">÷</button>
-            <button class="cb" data-num="7">7</button>
-            <button class="cb" data-num="8">8</button>
-            <button class="cb" data-num="9">9</button>
-            <button class="cb cb-op" data-op="×">×</button>
-            <button class="cb" data-num="4">4</button>
-            <button class="cb" data-num="5">5</button>
-            <button class="cb" data-num="6">6</button>
-            <button class="cb cb-op" data-op="−">−</button>
-            <button class="cb" data-num="1">1</button>
-            <button class="cb" data-num="2">2</button>
-            <button class="cb" data-num="3">3</button>
-            <button class="cb cb-op" data-op="+">+</button>
-            <button class="cb cb-zero" data-num="0">0</button>
-            <button class="cb" data-num=".">.</button>
-            <button class="cb cb-eq" data-action="equals">=</button>
-        </div>
-    </div>
-</div>
 
+
+<!-- Backdrop for popups -->
+<div class="global-popup-backdrop" id="globalBackdrop"></div>
+
+
+
+<script src="js/navbar-global.js"></script>
 <div class="global-popup-backdrop" id="globalBackdrop"></div>
 
 <!-- Main Content -->
