@@ -10,84 +10,145 @@
 </head>
 <body>
 
-<!-- Navbar (same as before) -->
+<!-- ════════════════════════════════════════════════════════════════════
+     REFORMED GLOBAL NAVBAR - Kurdish Default, Simplified
+     Usage: Copy this entire block to the top of each HTML file
+     ════════════════════════════════════════════════════════════════════ -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
-    <a class="navbar-brand font-weight-bold" href="index.html">🏪 سیستەمی فرۆشتن</a>
+    
+    <!-- Brand -->
+    <a class="navbar-brand font-weight-bold" href="index.html">
+        🏪 <span data-i18n="brand_name">سیستەمی فرۆشتن</span>
+    </a>
+
+    <!-- LEFT SIDE: Settings & Calculator Buttons -->
     <div class="navbar-left-actions">
-        <button class="nav-icon-btn" id="btnGlobalSettings">⚙️</button>
-        <button class="nav-icon-btn" id="btnGlobalCalc">🧮</button>
+        <button class="nav-icon-btn" id="btnGlobalSettings" title="ڕێکخستنەکان">
+            ⚙️
+        </button>
+        <button class="nav-icon-btn" id="btnGlobalCalc" title="ژمێرەر">
+            🧮
+        </button>
     </div>
+
+    <!-- Mobile Toggle -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- CENTER: Navigation Links (SIMPLIFIED - 5 tabs only) -->
     <div class="collapse navbar-collapse" id="globalNavbar">
         <ul class="navbar-nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="index.html">سەرەکی</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-items.html">کاڵاکان</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-employees.html">کارمەندان</a></li>
-            <li class="nav-item active"><a class="nav-link" href="pos-checkout.html">🛒 فرۆشتن</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage-debts.html">💳 قەرزەکان</a></li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="langDropdown" data-toggle="dropdown">
-                    🌐 <span id="currentLangLabel">کوردی</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">🟥🟩⚪ کوردی</a>
-                    <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">🇬🇧 English</a>
-                    <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">🇸🇦 العربية</a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html" data-i18n="nav_home">سەرەکی</a>
             </li>
             <li class="nav-item">
-                <span class="nav-link text-warning">👤 <strong id="navbarUsername">بەڕێوەبەر</strong></span>
+                <a class="nav-link" href="manage-items.html" data-i18n="nav_items">کاڵاکان</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manage-employees.html" data-i18n="nav_employees">کارمەندان</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pos-checkout.html" data-i18n="nav_pos">🛒 فرۆشتن</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="search-orders.html" data-i18n="nav_search">وەسڵەکان</a>
+            </li>
+        </ul>
+
+        <!-- RIGHT SIDE: Language Switcher & User Info -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Language Switcher (Kurdish First) -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="langDropdown" 
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    🌐 <span id="currentLangLabel">کوردی</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                    <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">
+                         کوردی
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">
+                       English
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">
+                         العربية
+                    </a>
+                </div>
+            </li>
+
+            <!-- User Info -->
+            <li class="nav-item">
+                <span class="nav-link text-warning">
+                    👤 <strong id="navbarUsername">بەڕێوەبەر</strong>
+                </span>
             </li>
         </ul>
     </div>
+
 </nav>
 
-<!-- Settings & Calculator Popups (same as before) -->
+
+<!-- ════════════════════════════════════════════════════════════════════
+     GLOBAL SETTINGS POPUP - SIMPLIFIED (No Currency)
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="global-popup" id="globalSettingsPanel">
     <div class="popup-header">
-        <span>⚙️ ڕێکخستنەکان</span>
+        <span>⚙️ <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
         <button class="popup-close" id="settingsCloseBtn">✕</button>
     </div>
     <div class="settings-body">
+
         <div class="settings-section">
-            <div class="settings-label">ناوی فرۆشگا</div>
+            <div class="settings-label" data-i18n="settings_store">ناوی فرۆشگا</div>
             <input type="text" id="globalStoreName" class="settings-input" placeholder="فرۆشگای من">
         </div>
+
+        <!-- CURRENCY REMOVED - Fixed as IQD -->
+
         <div class="settings-section">
-            <div class="settings-label">ڕێژەی باج (%)</div>
-            <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
+            <div class="settings-label" data-i18n="settings_tax">ڕێژەی باج (%)</div>
+            <input type="number" id="globalTaxRate" class="settings-input" 
+                   placeholder="0" min="0" max="100" step="0.1">
         </div>
+
         <div class="settings-section">
-            <div class="settings-label">چاپی خۆکار</div>
+            <div class="settings-label" data-i18n="settings_auto_print">چاپی خۆکار</div>
             <label class="toggle-label">
                 <input type="checkbox" id="globalAutoPrint">
                 <span class="toggle-track"></span>
-                <span class="toggle-text">ناچالاک</span>
+                <span class="toggle-text" data-i18n="toggle_off">ناچالاک</span>
             </label>
         </div>
+
         <div class="settings-section">
-            <div class="settings-label">دەنگ لە زیادکردن</div>
+            <div class="settings-label" data-i18n="settings_sound">دەنگ لە زیادکردن</div>
             <label class="toggle-label">
                 <input type="checkbox" id="globalSound" checked>
                 <span class="toggle-track"></span>
-                <span class="toggle-text">چالاک</span>
+                <span class="toggle-text" data-i18n="toggle_on">چالاک</span>
             </label>
         </div>
+
         <div class="settings-section">
-            <div class="settings-label">ناوی بەکارهێنەر</div>
+            <div class="settings-label" data-i18n="settings_cashier_name">ناوی بەکارهێنەر</div>
             <input type="text" id="globalCashierName" class="settings-input" placeholder="بەڕێوەبەر">
         </div>
-        <button class="settings-save-btn" id="btnGlobalSaveSettings">💾 پاشەکەوت</button>
+
+        <button class="settings-save-btn" id="btnGlobalSaveSettings">
+            💾 <span data-i18n="settings_save">پاشەکەوت</span>
+        </button>
     </div>
 </div>
 
+
+<!-- ════════════════════════════════════════════════════════════════════
+     GLOBAL CALCULATOR POPUP (unchanged)
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="global-popup" id="globalCalcPanel">
     <div class="popup-header">
-        <span>🧮 ژمێرەر</span>
+        <span>🧮 <span data-i18n="calc_title">ژمێرەر</span></span>
         <button class="popup-close" id="calcCloseBtn">✕</button>
     </div>
     <div class="calc-wrap">
@@ -96,28 +157,37 @@
             <div class="calc-result" id="globalCalcResult">0</div>
         </div>
         <div class="calc-grid">
+            <!-- Row 1 -->
             <button class="cb cb-fn" data-action="clear">AC</button>
             <button class="cb cb-fn" data-action="sign">+/−</button>
             <button class="cb cb-fn" data-action="percent">%</button>
             <button class="cb cb-op" data-op="÷">÷</button>
+            <!-- Row 2 -->
             <button class="cb" data-num="7">7</button>
             <button class="cb" data-num="8">8</button>
             <button class="cb" data-num="9">9</button>
             <button class="cb cb-op" data-op="×">×</button>
+            <!-- Row 3 -->
             <button class="cb" data-num="4">4</button>
             <button class="cb" data-num="5">5</button>
             <button class="cb" data-num="6">6</button>
             <button class="cb cb-op" data-op="−">−</button>
+            <!-- Row 4 -->
             <button class="cb" data-num="1">1</button>
             <button class="cb" data-num="2">2</button>
             <button class="cb" data-num="3">3</button>
             <button class="cb cb-op" data-op="+">+</button>
+            <!-- Row 5 -->
             <button class="cb cb-zero" data-num="0">0</button>
             <button class="cb" data-num=".">.</button>
             <button class="cb cb-eq" data-action="equals">=</button>
         </div>
     </div>
 </div>
+
+<!-- Backdrop for popups -->
+<div class="global-popup-backdrop" id="globalBackdrop"></div>
+
 
 <div class="global-popup-backdrop" id="globalBackdrop"></div>
 
@@ -199,7 +269,7 @@
 
         </div>
 
-        <!-- RIGHT PANEL (Updated with Debt button) -->
+        <!-- RIGHT PANEL (simplified - no customer, no currency) -->
         <div class="pos-right">
 
             <!-- Payment Method -->
@@ -220,13 +290,9 @@
                 </div>
             </div>
 
-            <!-- Action Buttons (Updated with Debt button) -->
+            <!-- Action Buttons -->
             <div class="right-section action-section">
                 <button class="btn-complete" id="btnCompleteSale">✅ تەواوکردنی فرۆشتن</button>
-                
-                <!-- NEW: Sell as Debt Button -->
-                <button class="btn-debt" id="btnSellAsDebt">💳 فرۆشتن بە قەرز</button>
-                
                 <div class="btn-row-2">
                     <button class="btn-hold" id="btnHold">⏸ ڕاگرتن</button>
                     <button class="btn-cancel" id="btnCancel">✕ هەڵوەشاندنەوە</button>
@@ -250,53 +316,6 @@
             <div class="modal-footer">
                 <button class="btn btn-primary" onclick="window.print()">🖨️ چاپ</button>
                 <button class="btn btn-success" data-dismiss="modal" id="btnNewSale">➕ فرۆشتنی نوێ</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Customer Selection Modal (NEW) -->
-<div class="modal fade" id="customerSelectModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white;">
-                <h5 class="modal-title">👤 هەڵبژاردنی کڕیار بۆ قەرز</h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
-            </div>
-            <div class="modal-body">
-                
-                <!-- Quick Add Customer -->
-                <div class="card mb-3" style="border: 2px solid #e74c3c;">
-                    <div class="card-body">
-                        <h6 class="text-danger mb-3">➕ زیادکردنی کڕیاری نوێ (خێرا)</h6>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="quickCustomerName" placeholder="ناوی کڕیار *">
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" id="quickCustomerPhone" placeholder="ژمارە مۆبایل">
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-danger btn-block" id="btnQuickAddCustomer">زیادکردن</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Search Existing -->
-                <div class="form-group">
-                    <input type="text" class="form-control" id="customerSearchInput" 
-                           placeholder="گەڕان بە ناو یان ژمارە مۆبایل...">
-                </div>
-
-                <!-- Customers List -->
-                <div id="customersList" style="max-height: 300px; overflow-y: auto;">
-                    <div class="text-center text-muted py-4">
-                        <div style="font-size: 48px;">👥</div>
-                        <p>چاوەڕوان بە...</p>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -342,76 +361,6 @@
 <script src="js/navbar-global.js"></script>
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/pos-checkout-debt-controller.js"></script>
-
-<style>
-/* Additional styles for debt button */
-.btn-debt {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 800;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    cursor: pointer;
-    letter-spacing: .3px;
-    box-shadow: 0 4px 15px rgba(231,76,60,.4);
-    transition: all .2s;
-    margin-bottom: 8px;
-}
-
-.btn-debt:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 20px rgba(231,76,60,.5);
-}
-
-/* Customer list styles */
-.customer-item {
-    padding: 12px 15px;
-    border: 2px solid #ecf0f1;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: all .2s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.customer-item:hover {
-    border-color: #e74c3c;
-    background: #fff5f5;
-    transform: translateX(-3px);
-}
-
-.customer-item.selected {
-    border-color: #e74c3c;
-    background: #ffe6e6;
-}
-
-.customer-name {
-    font-weight: 700;
-    font-size: 15px;
-    color: #2c3e50;
-}
-
-.customer-phone {
-    font-size: 13px;
-    color: #7f8c8d;
-    margin-top: 2px;
-}
-
-.customer-debt-badge {
-    background: #e74c3c;
-    color: white;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 700;
-}
-</style>
-
+<script src="js/pos-checkout-controller.js"></script>
 </body>
 </html>
